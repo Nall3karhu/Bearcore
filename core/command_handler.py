@@ -1,20 +1,28 @@
 from core.memory import save_memory, load_memory, list_memories
-from modules.weather.weather import weather
+from core.module_manager import run_module
 
 
 def handle_command(command):
+
     osat = command.strip().split()
 
     if len(osat) == 0:
         return True
 
     if osat[0] == "apu":
+
         print("""
 Komennot:
+
 muista <avain> <tieto>
 hae <avain>
 listaa
+
+Moduulit:
 sää
+github
+developer
+
 lopeta
 """)
 
@@ -24,10 +32,7 @@ lopeta
             print("Käyttö: muista <avain> <tieto>")
             return True
 
-        avain = osat[1]
-        tieto = " ".join(osat[2:])
-
-        save_memory(avain, tieto)
+        save_memory(osat[1], " ".join(osat[2:]))
 
     elif osat[0] == "hae":
 
@@ -47,21 +52,26 @@ lopeta
         muistit = list_memories()
 
         if muistit:
+
             print("\n=== Muistit ===")
 
             for avain, tieto in muistit:
                 print(f"{avain} = {tieto}")
+
         else:
             print("Muisti on tyhjä.")
 
-    elif osat[0] == "sää":
-        weather()
-
     elif osat[0] == "lopeta":
+
         print("BearCore suljetaan...")
         return False
 
+    # 👇 TÄRKEÄ MUUTOS
+    elif run_module(command):
+        pass
+
     else:
-        print("Tuntematon komento. Kirjoita 'apu'.")
+
+        print("Tuntematon komento.")
 
     return True
