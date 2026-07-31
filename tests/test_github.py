@@ -1,5 +1,7 @@
 from modules.github.github import github
+from unittest.mock import patch
 
 
 def test_github():
-    github()
+    with patch("builtins.input", side_effect=["3"]):
+        github()
