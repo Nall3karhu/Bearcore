@@ -1,0 +1,3 @@
+# BearCore
+
+Projektin perusrakenne.
