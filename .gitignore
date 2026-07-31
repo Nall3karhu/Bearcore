@@ -38,3 +38,10 @@ env/
 
 .DS_Store
 Thumbs.db
+
+# ==========================
+# Kaikki Python-välimuistit
+# ==========================
+
+**/__pycache__/
+*.pyc
