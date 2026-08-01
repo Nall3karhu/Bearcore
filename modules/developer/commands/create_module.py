@@ -1,24 +1,27 @@
-import os
 import json
+import os
 
 
-def create_module(args):
+def command(args):
 
-    if len(args) == 0:
-        print("Käyttö: developer new module <nimi>")
-        return
+    if len(args) < 3:
+        return False
 
-    name = args[0].lower()
+    if args[0] != "create":
+        return False
+
+    if args[1] != "module":
+        return False
+
+    name = args[2].lower()
 
     path = os.path.join("modules", name)
 
     if os.path.exists(path):
-        print(f"❌ Moduuli {name} on jo olemassa.")
-        return
+        print(f"❌ Moduuli '{name}' on jo olemassa.")
+        return True
 
     os.makedirs(path)
-    os.makedirs("docs", exist_ok=True)
-    os.makedirs("tests", exist_ok=True)
 
     with open(
         os.path.join(path, f"{name}.py"),
@@ -35,7 +38,8 @@ f'''def {name}(args=None):
 
     open(
         os.path.join(path, "__init__.py"),
-        "w"
+        "w",
+        encoding="utf-8"
     ).close()
 
     with open(
@@ -59,7 +63,9 @@ f'''def {name}(args=None):
         encoding="utf-8"
     ) as f:
 
-        f.write(f"# {name}\n\nBearCore moduuli.\n")
+        f.write(f"# {name}\n\nBearCore Module\n")
+
+    os.makedirs("tests", exist_ok=True)
 
     with open(
         os.path.join("tests", f"test_{name}.py"),
@@ -73,16 +79,10 @@ f'''from modules.{name}.{name} import {name}
 
 def test_{name}():
 
-    {name}()
+    assert {name}() is None
 '''
         )
 
-    with open(
-        os.path.join("docs", f"{name}.md"),
-        "w",
-        encoding="utf-8"
-    ) as f:
+    print(f"✅ Moduuli '{name}' luotu.")
 
-        f.write(f"# {name}\n")
-
-    print(f"✅ Luotu moduuli: {name}")
+    return True

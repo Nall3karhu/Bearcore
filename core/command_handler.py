@@ -1,5 +1,5 @@
 from core.memory import save_memory, load_memory, list_memories
-from core.module_manager import run_module
+from core.module_manager import run_module, MODULES
 
 
 def handle_command(command):
@@ -14,6 +14,8 @@ def handle_command(command):
         print("""
 Komennot:
 
+apu
+moduulit
 muista <avain> <tieto>
 hae <avain>
 listaa
@@ -61,12 +63,22 @@ lopeta
         else:
             print("Muisti on tyhjä.")
 
+    elif osat[0] == "moduulit":
+
+        if len(MODULES) == 0:
+            print("Ei ladattuja moduuleja.")
+        else:
+
+            print("\n=== Ladatut moduulit ===")
+
+            for nimi in sorted(MODULES.keys()):
+                print(f"- {nimi}")
+
     elif osat[0] == "lopeta":
 
         print("BearCore suljetaan...")
         return False
 
-    # 👇 TÄRKEÄ MUUTOS
     elif run_module(command):
         pass
 

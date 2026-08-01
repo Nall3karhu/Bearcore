@@ -6,12 +6,10 @@ def run_command(args):
 
     folder = os.path.dirname(__file__)
 
-
     for file in os.listdir(folder):
 
         if not file.endswith(".py"):
             continue
-
 
         if file in [
             "__init__.py",
@@ -19,9 +17,7 @@ def run_command(args):
         ]:
             continue
 
-
         module_name = file[:-3]
-
 
         try:
 
@@ -29,25 +25,19 @@ def run_command(args):
                 f"modules.developer.commands.{module_name}"
             )
 
-
             importlib.reload(module)
-
 
             if hasattr(module, "command"):
 
                 result = module.command(args)
 
-
                 if result:
-
                     return True
-
 
         except Exception as e:
 
             print(
-                f"❌ Plugin {module_name}: {e}"
+                f"❌ Virhe komennossa {module_name}: {e}"
             )
-
 
     return False
