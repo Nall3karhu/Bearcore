@@ -4,16 +4,14 @@ from PySide6.QtWidgets import (
     QLabel,
     QListWidget,
     QPushButton,
-    QTextEdit,
-    QLineEdit
+    QLineEdit,
+    QTextEdit
 )
-
 
 from core.knowledge_manager import (
     load_knowledge,
     search_knowledge
 )
-
 
 
 class KnowledgePage(QWidget):
@@ -32,34 +30,32 @@ class KnowledgePage(QWidget):
         )
 
 
-        self.layout = QVBoxLayout(
+        layout = QVBoxLayout(
             self
         )
 
 
-        self.title = QLabel(
-            "🐻 BearCore Knowledge"
-        )
-
-        self.layout.addWidget(
-            self.title
+        layout.addWidget(
+            QLabel(
+                "🐻 BearCore Knowledge"
+            )
         )
 
 
         self.search_box = QLineEdit()
 
         self.search_box.setPlaceholderText(
-            "🔎 Hae muistista..."
+            "🔎 Hae tietoa..."
         )
 
-        self.layout.addWidget(
+        layout.addWidget(
             self.search_box
         )
 
 
         self.list = QListWidget()
 
-        self.layout.addWidget(
+        layout.addWidget(
             self.list
         )
 
@@ -70,29 +66,27 @@ class KnowledgePage(QWidget):
             True
         )
 
-        self.layout.addWidget(
+        layout.addWidget(
             self.info
         )
 
 
-        self.refresh = QPushButton(
+        self.refresh_btn = QPushButton(
             "🔄 Päivitä"
         )
 
-        self.layout.addWidget(
-            self.refresh
+        layout.addWidget(
+            self.refresh_btn
         )
 
 
-        self.refresh.clicked.connect(
+        self.refresh_btn.clicked.connect(
             self.load_data
         )
-
 
         self.search_box.textChanged.connect(
             self.search
         )
-
 
         self.list.itemClicked.connect(
             self.show_info
@@ -127,12 +121,11 @@ class KnowledgePage(QWidget):
         self.list.clear()
 
 
-        if text == "":
+        if not text:
 
             self.load_data()
 
             return
-
 
 
         results = search_knowledge(
@@ -164,12 +157,10 @@ class KnowledgePage(QWidget):
 f"""
 📌 {data['topic']}
 
+
 📝 {data['content']}
 
-📂 Lähde:
-{data['source']}
 
-🕒 Aika:
-{data['time']}
+🕒 {data['time']}
 """
             )
