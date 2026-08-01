@@ -28,6 +28,10 @@ from PySide6.QtWidgets import (
 )
 
 
+from ui.event_log_widget import EventLogWidget
+from core.logger import log
+
+
 
 class BearCoreStudio(QMainWindow):
 
@@ -40,12 +44,13 @@ class BearCoreStudio(QMainWindow):
             "🐻 BearCore Studio"
         )
 
-
         self.resize(
             1400,
             800
         )
 
+
+        self.windows = {}
 
         self.all_modules = {}
 
@@ -65,8 +70,6 @@ class BearCoreStudio(QMainWindow):
         )
 
 
-        # Yläpalkki
-
         self.status = QLabel()
 
         main.addWidget(
@@ -74,12 +77,11 @@ class BearCoreStudio(QMainWindow):
         )
 
 
-
         content = QHBoxLayout()
 
 
 
-        # Moduulit
+        # MODUULIT
 
         left = QVBoxLayout()
 
@@ -117,7 +119,7 @@ class BearCoreStudio(QMainWindow):
 
 
 
-        # Inspector
+        # INSPECTOR
 
         middle = QVBoxLayout()
 
@@ -141,25 +143,14 @@ class BearCoreStudio(QMainWindow):
         )
 
 
-
         self.open_btn = QPushButton(
             "📂 Avaa kansio"
-        )
-
-
-        self.reload_btn = QPushButton(
-            "🔄 Reload"
         )
 
 
         middle.addWidget(
             self.open_btn
         )
-
-        middle.addWidget(
-            self.reload_btn
-        )
-
 
 
         self.open_btn.clicked.connect(
@@ -168,32 +159,18 @@ class BearCoreStudio(QMainWindow):
 
 
 
-        # Console
+        # OIKEA
 
         right = QVBoxLayout()
 
 
-        right.addWidget(
-            QLabel(
-                "🐻 Console"
-            )
-        )
-
-
-        self.console = QTextEdit()
-
-        self.console.setReadOnly(
-            True
-        )
+        self.event_log = EventLogWidget()
 
 
         right.addWidget(
-            self.console
+            self.event_log
         )
 
-
-
-        # Tools
 
         tools = QGroupBox(
             "🐻 BearCore Tools"
@@ -203,36 +180,29 @@ class BearCoreStudio(QMainWindow):
         tool_layout = QVBoxLayout()
 
 
-
         self.dashboard_btn = QPushButton(
             "🐻 Dashboard"
         )
-
 
         self.create_btn = QPushButton(
             "➕ Luo moduuli"
         )
 
-
         self.template_btn = QPushButton(
             "📦 Templates"
         )
-
 
         self.pipeline_btn = QPushButton(
             "🚀 Pipeline"
         )
 
-
         self.report_btn = QPushButton(
             "📊 Raportit"
         )
 
-
         self.refresh_btn = QPushButton(
             "🔄 Päivitä"
         )
-
 
 
         for button in [
@@ -249,7 +219,6 @@ class BearCoreStudio(QMainWindow):
             tool_layout.addWidget(
                 button
             )
-
 
 
         tools.setLayout(
@@ -275,7 +244,7 @@ class BearCoreStudio(QMainWindow):
 
         content.addLayout(
             right,
-            1
+            2
         )
 
 
@@ -285,17 +254,107 @@ class BearCoreStudio(QMainWindow):
 
 
 
-        self.search.textChanged.connect(
-            self.load_modules
+        self.dashboard_btn.clicked.connect(
+            self.open_dashboard
         )
 
+        self.create_btn.clicked.connect(
+            self.open_create
+        )
+
+        self.template_btn.clicked.connect(
+            self.open_templates
+        )
+
+        self.pipeline_btn.clicked.connect(
+            self.open_pipeline
+        )
+
+        self.report_btn.clicked.connect(
+            self.open_reports
+        )
 
         self.refresh_btn.clicked.connect(
             self.load_modules
         )
 
+        self.search.textChanged.connect(
+            self.load_modules
+        )
+
+
+        log(
+            "🐻 BearCore Studio käynnistetty"
+        )
+
 
         self.load_modules()
+
+
+
+    def open_page(self, name, cls):
+
+        if name not in self.windows:
+
+            self.windows[name] = cls()
+
+
+        self.windows[name].show()
+
+
+
+    def open_dashboard(self):
+
+        from ui.pages.dashboard import DashboardPage
+
+        self.open_page(
+            "dashboard",
+            DashboardPage
+        )
+
+
+
+    def open_create(self):
+
+        from ui.pages.create_module import CreateModulePage
+
+        self.open_page(
+            "create",
+            CreateModulePage
+        )
+
+
+
+    def open_templates(self):
+
+        from ui.pages.template import TemplatePage
+
+        self.open_page(
+            "templates",
+            TemplatePage
+        )
+
+
+
+    def open_pipeline(self):
+
+        from ui.pages.pipeline import PipelinePage
+
+        self.open_page(
+            "pipeline",
+            PipelinePage
+        )
+
+
+
+    def open_reports(self):
+
+        from ui.pages.reports import ReportPage
+
+        self.open_page(
+            "reports",
+            ReportPage
+        )
 
 
 
@@ -304,17 +363,17 @@ class BearCoreStudio(QMainWindow):
         self.all_modules.clear()
 
 
-        folder = (
-            BASE_DIR /
-            "modules"
-        )
+        folder = BASE_DIR / "modules"
 
 
         if folder.exists():
 
             for item in folder.iterdir():
 
-                if item.is_dir() and item.name != "__pycache__":
+                if (
+                    item.is_dir()
+                    and item.name != "__pycache__"
+                ):
 
                     self.all_modules[item.name] = item
 
@@ -323,7 +382,7 @@ class BearCoreStudio(QMainWindow):
         self.modules.clear()
 
 
-        text = (
+        search = (
             self.search.text()
             .lower()
         )
@@ -333,12 +392,11 @@ class BearCoreStudio(QMainWindow):
             self.all_modules
         ):
 
-            if text in name.lower():
+            if search in name.lower():
 
                 self.modules.addItem(
                     "✅ " + name
                 )
-
 
 
         self.status.setText(
@@ -361,59 +419,12 @@ class BearCoreStudio(QMainWindow):
         self.current_module = name
 
 
-        path = self.all_modules[name]
-
-
-        category = "unknown"
-
-        version = "1.0"
-
-
-        config = path / "config.json"
-
-
-        if config.exists():
-
-            try:
-
-                with open(
-                    config,
-                    "r",
-                    encoding="utf-8"
-                ) as f:
-
-                    data = json.load(f)
-
-
-                category = data.get(
-                    "category",
-                    "unknown"
-                )
-
-
-                version = data.get(
-                    "version",
-                    "1.0"
-                )
-
-            except:
-
-                pass
-
-
-
         self.info.setText(
 f"""
 🐻 Module Inspector
 
 Nimi:
 {name}
-
-📂 Kategoria:
-{category}
-
-📌 Versio:
-{version}
 
 🟢 Tila:
 Ready

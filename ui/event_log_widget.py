@@ -3,7 +3,10 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QLabel,
     QTextEdit,
+    QPushButton,
 )
+
+from PySide6.QtCore import QTimer
 
 from core.event_logger import get_events
 
@@ -21,24 +24,49 @@ class EventLogWidget(QWidget):
         )
 
 
-        self.title = QLabel(
-            "📜 BearCore Event Log"
+        layout.addWidget(
+            QLabel(
+                "📜 BearCore Event Log"
+            )
         )
 
 
-        self.log = QTextEdit()
+        self.log_view = QTextEdit()
 
-        self.log.setReadOnly(
+        self.log_view.setReadOnly(
             True
         )
 
 
         layout.addWidget(
-            self.title
+            self.log_view
         )
 
+
+        self.refresh_btn = QPushButton(
+            "🔄 Päivitä loki"
+        )
+
+
         layout.addWidget(
-            self.log
+            self.refresh_btn
+        )
+
+
+        self.refresh_btn.clicked.connect(
+            self.refresh
+        )
+
+
+        self.timer = QTimer()
+
+        self.timer.timeout.connect(
+            self.refresh
+        )
+
+
+        self.timer.start(
+            3000
         )
 
 
@@ -48,15 +76,22 @@ class EventLogWidget(QWidget):
 
     def refresh(self):
 
-        self.log.clear()
+        self.log_view.clear()
 
 
-        events = get_events()
+        try:
+
+            events = get_events()
+
+        except Exception:
+
+            events = []
+
 
 
         if not events:
 
-            self.log.setText(
+            self.log_view.setText(
                 "Ei tapahtumia vielä."
             )
 
@@ -64,13 +99,16 @@ class EventLogWidget(QWidget):
 
 
 
-        for event in reversed(events):
+        for event in reversed(events[-50:]):
 
-            self.log.append(
-                f"""
-{event['time']}
-{event['event']}
 
---------------------
+            self.log_view.append(
+
+f"""
+🕒 {event.get("time")}
+
+{event.get("event")}
+
+------------------------
 """
             )

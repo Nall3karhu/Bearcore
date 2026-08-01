@@ -4,8 +4,12 @@ from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
     QLabel,
+    QTextEdit,
     QPushButton,
 )
+
+from core.event_logger import get_events
+
 
 
 class DashboardPage(QWidget):
@@ -14,13 +18,15 @@ class DashboardPage(QWidget):
 
         super().__init__()
 
+
         self.setWindowTitle(
             "🐻 BearCore Dashboard"
         )
 
+
         self.resize(
-            600,
-            500
+            700,
+            700
         )
 
 
@@ -29,38 +35,29 @@ class DashboardPage(QWidget):
         )
 
 
-        self.title = QLabel(
-            "🐻 BearCore Dashboard"
-        )
-
         layout.addWidget(
-            self.title
+            QLabel(
+                "🐻 BearCore Dashboard"
+            )
         )
 
 
         self.status = QLabel()
 
-        self.modules = QLabel()
+        self.info = QTextEdit()
 
-        self.templates = QLabel()
-
-        self.reports = QLabel()
+        self.info.setReadOnly(
+            True
+        )
 
 
         layout.addWidget(
             self.status
         )
 
-        layout.addWidget(
-            self.modules
-        )
 
         layout.addWidget(
-            self.templates
-        )
-
-        layout.addWidget(
-            self.reports
+            self.info
         )
 
 
@@ -68,55 +65,41 @@ class DashboardPage(QWidget):
             "🔄 Päivitä"
         )
 
+
         layout.addWidget(
             self.refresh_btn
         )
 
 
         self.refresh_btn.clicked.connect(
-            self.load_data
+            self.refresh
         )
 
 
-        self.load_data()
+        self.refresh()
 
 
 
-    def find_bearcore(self):
+    def refresh(self):
 
-        current = Path(__file__).resolve()
-
-
-        for parent in current.parents:
-
-            if parent.name == "BearCore":
-
-                return parent
-
-
-        return None
+        base = (
+            Path(__file__)
+            .resolve()
+            .parent
+            .parent
+            .parent
+        )
 
 
+        modules = 0
+        reports = 0
+        backups = 0
 
-    def load_data(self):
-
-        base = self.find_bearcore()
-
-
-        if not base:
-
-            return
 
 
         modules_dir = (
             base /
             "modules"
-        )
-
-
-        templates_dir = (
-            base /
-            "templates"
         )
 
 
@@ -126,9 +109,10 @@ class DashboardPage(QWidget):
         )
 
 
-        modules = 0
-        templates = 0
-        reports = 0
+        backups_dir = (
+            base /
+            "backups"
+        )
 
 
 
@@ -138,17 +122,7 @@ class DashboardPage(QWidget):
                 [
                     x for x in modules_dir.iterdir()
                     if x.is_dir()
-                ]
-            )
-
-
-
-        if templates_dir.exists():
-
-            templates = len(
-                [
-                    x for x in templates_dir.iterdir()
-                    if x.is_dir()
+                    and x.name != "__pycache__"
                 ]
             )
 
@@ -158,27 +132,84 @@ class DashboardPage(QWidget):
 
             reports = len(
                 list(
-                    reports_dir.glob("*.json")
+                    reports_dir.iterdir()
                 )
             )
 
 
 
+        if backups_dir.exists():
+
+            backups = len(
+                list(
+                    backups_dir.iterdir()
+                )
+            )
+
+
+
+        try:
+
+            events = get_events()
+
+        except:
+
+            events = []
+
+
+
+        text = f"""
+🟢 Järjestelmä:
+Online
+
+
+📦 Moduuleita:
+{modules}
+
+
+📊 Raportteja:
+{reports}
+
+
+💾 Backupeja:
+{backups}
+
+
+📜 Tapahtumia:
+{len(events)}
+
+
+
+--------------------
+
+📜 Viimeisimmät tapahtumat:
+
+"""
+
+
+
+        for event in reversed(
+            events[-10:]
+        ):
+
+            text += (
+
+f"""
+🕒 {event.get("time")}
+
+{event.get("event")}
+
+"""
+
+            )
+
+
+
         self.status.setText(
-            "🟢 Tila: BearCore valmis"
+            "🟢 BearCore aktiivinen"
         )
 
 
-        self.modules.setText(
-            f"📦 Moduuleita: {modules}"
-        )
-
-
-        self.templates.setText(
-            f"📚 Templateja: {templates}"
-        )
-
-
-        self.reports.setText(
-            f"📄 Raportteja: {reports}"
+        self.info.setText(
+            text
         )
