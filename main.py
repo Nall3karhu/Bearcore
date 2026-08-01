@@ -25,14 +25,25 @@ def main():
 
     while True:
 
-        command = input("\nBearCore > ")
+        command = input("\nBearCore > ").strip()
 
-        if command == "brain":
-            brain.think(input("Ajatus > "))
+        if command.lower() in (
+            "exit",
+            "quit",
+            "lopeta"
+        ):
+            print("👋 Suljetaan BearCore...")
+            break
+
+        # Brain käsittelee KAIKKI komennot
+        if brain.think(command):
             continue
 
-        if not handle_command(command):
-            break
+        # Jos Brain ei osannut, käytetään vanhaa komentojärjestelmää
+        if handle_command(command):
+            continue
+
+        print("❌ Tuntematon komento.")
 
 
 if __name__ == "__main__":

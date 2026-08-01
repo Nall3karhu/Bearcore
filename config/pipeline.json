@@ -1,0 +1,8 @@
+{
+    "steps": [
+        "build",
+        "test",
+        "backup",
+        "deploy"
+    ]
+}

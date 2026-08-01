@@ -45,3 +45,11 @@ Thumbs.db
 
 **/__pycache__/
 *.pyc
+# BearCore generated data
+
+backups/
+reports/
+
+logs/events.json
+
+*.zip

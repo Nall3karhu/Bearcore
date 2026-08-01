@@ -2,6 +2,11 @@ def parse(text):
 
     text = text.strip().lower()
 
+    if not text:
+        return {
+            "intent": "unknown"
+        }
+
     # Muista...
     if text.startswith("muista"):
         return {
@@ -23,17 +28,26 @@ def parse(text):
             "text": text
         }
 
+    # Sisäänrakennetut komennot
+    if text in (
+        "apu",
+        "help",
+        "exit",
+        "quit",
+        "lopeta",
+        "status",
+        "version"
+    ):
+        return {
+            "intent": "command",
+            "command": text
+        }
+
     # Moduulit
     osat = text.split()
 
-    if len(osat):
-
-        return {
-            "intent": "module",
-            "module": osat[0],
-            "args": osat[1:]
-        }
-
     return {
-        "intent": "unknown"
+        "intent": "module",
+        "module": osat[0],
+        "args": osat[1:]
     }

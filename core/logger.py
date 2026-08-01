@@ -1,15 +1,14 @@
-import logging
-import os
+from core.event_logger import add_event
 
-# Luodaan lokikansio, jos sitä ei ole
-os.makedirs("data/logs", exist_ok=True)
 
-# Määritetään lokituksen asetukset
-logging.basicConfig(
-    filename="data/logs/bearcore.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+def log(message):
 
-# Luodaan logger-olio
-logger = logging.getLogger("BearCore")
+    try:
+
+        add_event(
+            message
+        )
+
+    except Exception:
+
+        pass

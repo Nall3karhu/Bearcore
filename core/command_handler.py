@@ -1,5 +1,30 @@
-from core.memory import save_memory, load_memory, list_memories
-from core.module_manager import run_module, MODULES
+from core.memory import (
+    save_memory,
+    load_memory,
+    list_memories
+)
+
+from core.module_manager import (
+    run_module,
+    MODULES
+)
+
+from core.smart_command import suggest
+
+
+COMMANDS = [
+
+    "apu",
+    "moduulit",
+    "muista",
+    "hae",
+    "listaa",
+    "files",
+    "developer",
+    "brain",
+    "lopeta"
+
+]
 
 
 def handle_command(command):
@@ -9,6 +34,10 @@ def handle_command(command):
     if len(osat) == 0:
         return True
 
+    # -------------------------
+    # APU
+    # -------------------------
+
     if osat[0] == "apu":
 
         print("""
@@ -16,74 +45,122 @@ Komennot:
 
 apu
 moduulit
+
 muista <avain> <tieto>
 hae <avain>
 listaa
 
-Moduulit:
-sää
-github
+files
 developer
+brain
 
 lopeta
 """)
 
-    elif osat[0] == "muista":
+        return True
+
+    # -------------------------
+    # MODUULIT
+    # -------------------------
+
+    if osat[0] == "moduulit":
+
+        print("\n=== Ladatut moduulit ===\n")
+
+        for nimi in sorted(MODULES.keys()):
+            print(f"- {nimi}")
+
+        return True
+
+    # -------------------------
+    # MUISTI
+    # -------------------------
+
+    if osat[0] == "muista":
 
         if len(osat) < 3:
-            print("Käyttö: muista <avain> <tieto>")
+
+            print("Käyttö:")
+            print("muista <avain> <tieto>")
             return True
 
-        save_memory(osat[1], " ".join(osat[2:]))
+        save_memory(
+            osat[1],
+            " ".join(osat[2:])
+        )
 
-    elif osat[0] == "hae":
+        print(f"🧠 Tallennettu: {osat[1]}")
+
+        return True
+
+    # -------------------------
+
+    if osat[0] == "hae":
 
         if len(osat) < 2:
-            print("Käyttö: hae <avain>")
+
+            print("Käyttö:")
+            print("hae <avain>")
             return True
 
-        tulos = load_memory(osat[1])
+        tieto = load_memory(osat[1])
 
-        if tulos:
-            print(f"Löytyi: {tulos}")
+        if tieto:
+
+            print(f"🧠 {osat[1]} = {tieto}")
+
         else:
+
             print("Tietoa ei löytynyt.")
 
-    elif osat[0] == "listaa":
+        return True
+
+    # -------------------------
+
+    if osat[0] == "listaa":
 
         muistit = list_memories()
 
-        if muistit:
+        if not muistit:
 
-            print("\n=== Muistit ===")
-
-            for avain, tieto in muistit:
-                print(f"{avain} = {tieto}")
-
-        else:
             print("Muisti on tyhjä.")
+            return True
 
-    elif osat[0] == "moduulit":
+        print("\n=== Muistit ===\n")
 
-        if len(MODULES) == 0:
-            print("Ei ladattuja moduuleja.")
-        else:
+        for avain, tieto in muistit:
 
-            print("\n=== Ladatut moduulit ===")
+            print(f"{avain} = {tieto}")
 
-            for nimi in sorted(MODULES.keys()):
-                print(f"- {nimi}")
+        return True
 
-    elif osat[0] == "lopeta":
+    # -------------------------
+    # MODUULIT
+    # -------------------------
 
-        print("BearCore suljetaan...")
-        return False
+    if run_module(command):
 
-    elif run_module(command):
-        pass
+        return True
 
-    else:
+    # -------------------------
+    # SMART COMMAND
+    # -------------------------
 
-        print("Tuntematon komento.")
+    ehdotus = suggest(
+        osat[0],
+        COMMANDS + list(MODULES.keys())
+    )
+
+    if ehdotus:
+
+        print("")
+        print(f"🤔 Tarkoititko '{ehdotus}'?")
+        print("")
+
+        return True
+
+    # -------------------------
+
+    print("❌ Tuntematon komento.")
 
     return True

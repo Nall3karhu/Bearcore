@@ -1,22 +1,23 @@
 from core.parser import parse
 from core.module_manager import run_module
 from core.memory import save_memory, load_memory
+from core.intent_engine import detect
 
 
 class Brain:
 
     def think(self, command):
 
+        # Muunnetaan luonnollinen komento tarvittaessa
+        command = detect(command)
+
         result = parse(command)
 
         intent = result["intent"]
 
-        if intent == "module":
-
-            if not run_module(command):
-                print("❌ Moduulia ei löytynyt.")
-
-            return
+        # -------------------------
+        # Muistin tallennus
+        # -------------------------
 
         if intent == "save":
 
@@ -37,7 +38,11 @@ class Brain:
 
                 print("Käyttö: muista <avain> <tieto>")
 
-            return
+            return True
+
+        # -------------------------
+        # Muistin haku
+        # -------------------------
 
         if intent == "search":
 
@@ -54,6 +59,17 @@ class Brain:
                 else:
                     print("Tietoa ei löytynyt.")
 
-            return
+            return True
 
-        print("🤖 En ymmärtänyt komentoa.")
+        # -------------------------
+        # Moduulit
+        # -------------------------
+
+        if intent == "module":
+
+            if run_module(command):
+                return True
+
+            return False
+
+        return False

@@ -1,0 +1,8 @@
+{
+    "name": "{{MODULE_NAME}}",
+    "version": "{{VERSION}}",
+    "aliases": [],
+    "category": "api",
+    "description": "{{DESCRIPTION}}",
+    "author": "{{AUTHOR}}"
+}

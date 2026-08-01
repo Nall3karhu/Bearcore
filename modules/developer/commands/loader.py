@@ -2,42 +2,109 @@ import os
 import importlib
 
 
+SEARCH_PATHS = [
+
+    "commands",
+    "module",
+    "project",
+    "release",
+    "doctor",
+    "backup"
+
+]
+
+
 def run_command(args):
 
-    folder = os.path.dirname(__file__)
+    base = os.path.dirname(
+        os.path.dirname(__file__)
+    )
 
-    for file in os.listdir(folder):
+    command_name = args[0].lower() if args else ""
 
-        if not file.endswith(".py"):
+
+    # Etsi ensin tarkka komento
+    for folder in SEARCH_PATHS:
+
+        folder_path = os.path.join(
+            base,
+            folder
+        )
+
+        if not os.path.exists(folder_path):
             continue
 
-        if file in [
-            "__init__.py",
-            "loader.py"
-        ]:
+
+        file_name = f"{command_name}.py"
+
+        if file_name in os.listdir(folder_path):
+
+            try:
+
+                module = importlib.import_module(
+                    f"modules.developer.{folder}.{command_name}"
+                )
+
+                importlib.reload(module)
+
+
+                if hasattr(module, "command"):
+
+                    if module.command(args):
+
+                        return True
+
+
+            except Exception as e:
+
+                print(f"❌ {command_name}: {e}")
+
+                return True
+
+
+    # Jos tarkkaa tiedostoa ei löydy, käy kaikki läpi
+    for folder in SEARCH_PATHS:
+
+        folder_path = os.path.join(
+            base,
+            folder
+        )
+
+        if not os.path.exists(folder_path):
             continue
 
-        module_name = file[:-3]
 
-        try:
+        for file in os.listdir(folder_path):
 
-            module = importlib.import_module(
-                f"modules.developer.commands.{module_name}"
-            )
+            if not file.endswith(".py"):
+                continue
 
-            importlib.reload(module)
+            if file == "__init__.py":
+                continue
 
-            if hasattr(module, "command"):
 
-                result = module.command(args)
+            module_name = file[:-3]
 
-                if result:
-                    return True
 
-        except Exception as e:
+            try:
 
-            print(
-                f"❌ Virhe komennossa {module_name}: {e}"
-            )
+                module = importlib.import_module(
+                    f"modules.developer.{folder}.{module_name}"
+                )
+
+                importlib.reload(module)
+
+
+                if hasattr(module, "command"):
+
+                    if module.command(args):
+
+                        return True
+
+
+            except Exception as e:
+
+                print(f"❌ {module_name}: {e}")
+
 
     return False
