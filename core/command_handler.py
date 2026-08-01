@@ -22,6 +22,7 @@ COMMANDS = [
     "files",
     "developer",
     "brain",
+    "knowledge",
     "lopeta"
 
 ]
