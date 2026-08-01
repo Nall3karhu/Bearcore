@@ -28,7 +28,9 @@ from PySide6.QtWidgets import (
 )
 
 
+from ui.dashboard_panel import DashboardPanel
 from ui.event_log_widget import EventLogWidget
+
 from core.logger import log
 
 
@@ -44,9 +46,10 @@ class BearCoreStudio(QMainWindow):
             "🐻 BearCore Studio"
         )
 
+
         self.resize(
             1400,
-            800
+            900
         )
 
 
@@ -70,18 +73,21 @@ class BearCoreStudio(QMainWindow):
         )
 
 
-        self.status = QLabel()
+        # Dashboard ylös
+
+        self.dashboard = DashboardPanel()
 
         main.addWidget(
-            self.status
+            self.dashboard
         )
+
 
 
         content = QHBoxLayout()
 
 
 
-        # MODUULIT
+        # Moduulit
 
         left = QVBoxLayout()
 
@@ -119,7 +125,7 @@ class BearCoreStudio(QMainWindow):
 
 
 
-        # INSPECTOR
+        # Inspector
 
         middle = QVBoxLayout()
 
@@ -159,7 +165,7 @@ class BearCoreStudio(QMainWindow):
 
 
 
-        # OIKEA
+        # Oikea puoli
 
         right = QVBoxLayout()
 
@@ -172,12 +178,14 @@ class BearCoreStudio(QMainWindow):
         )
 
 
+
         tools = QGroupBox(
             "🐻 BearCore Tools"
         )
 
 
         tool_layout = QVBoxLayout()
+
 
 
         self.dashboard_btn = QPushButton(
@@ -205,6 +213,7 @@ class BearCoreStudio(QMainWindow):
         )
 
 
+
         for button in [
 
             self.dashboard_btn,
@@ -219,6 +228,7 @@ class BearCoreStudio(QMainWindow):
             tool_layout.addWidget(
                 button
             )
+
 
 
         tools.setLayout(
@@ -237,10 +247,12 @@ class BearCoreStudio(QMainWindow):
             1
         )
 
+
         content.addLayout(
             middle,
             2
         )
+
 
         content.addLayout(
             right,
@@ -253,6 +265,8 @@ class BearCoreStudio(QMainWindow):
         )
 
 
+
+        # Napit
 
         self.dashboard_btn.clicked.connect(
             self.open_dashboard
@@ -275,8 +289,9 @@ class BearCoreStudio(QMainWindow):
         )
 
         self.refresh_btn.clicked.connect(
-            self.load_modules
+            self.refresh_all
         )
+
 
         self.search.textChanged.connect(
             self.load_modules
@@ -289,6 +304,16 @@ class BearCoreStudio(QMainWindow):
 
 
         self.load_modules()
+
+
+
+    def refresh_all(self):
+
+        self.load_modules()
+
+        self.dashboard.refresh()
+
+        self.event_log.refresh()
 
 
 
@@ -370,10 +395,7 @@ class BearCoreStudio(QMainWindow):
 
             for item in folder.iterdir():
 
-                if (
-                    item.is_dir()
-                    and item.name != "__pycache__"
-                ):
+                if item.is_dir() and item.name != "__pycache__":
 
                     self.all_modules[item.name] = item
 
@@ -399,9 +421,7 @@ class BearCoreStudio(QMainWindow):
                 )
 
 
-        self.status.setText(
-            f"🟢 Online | 📦 Moduuleita: {len(self.all_modules)}"
-        )
+        self.dashboard.refresh()
 
 
 
