@@ -20,107 +20,95 @@ class ModuleInfoPage(QWidget):
 
         self.module_name = module_name
 
-
         self.setWindowTitle(
-            "🐻 BearCore Module Info"
+            "🐻 BearCore Module Inspector"
         )
 
         self.resize(
-            600,
-            600
+            700,
+            700
         )
 
 
-        layout = QVBoxLayout(
-            self
-        )
+        layout = QVBoxLayout(self)
 
 
         self.title = QLabel()
-
         self.category = QLabel()
-
         self.version = QLabel()
-
         self.status = QLabel()
 
 
-        layout.addWidget(
-            self.title
+        layout.addWidget(self.title)
+        layout.addWidget(self.category)
+        layout.addWidget(self.version)
+        layout.addWidget(self.status)
+
+
+        self.info = QTextEdit()
+
+        self.info.setReadOnly(True)
+
+        layout.addWidget(self.info)
+
+
+        # Toiminnot
+
+        self.analyze_btn = QPushButton(
+            "🔍 Analyze"
         )
 
-        layout.addWidget(
-            self.category
+        self.test_btn = QPushButton(
+            "🧪 Test"
         )
 
-        layout.addWidget(
-            self.version
+        self.backup_btn = QPushButton(
+            "💾 Backup"
         )
 
-        layout.addWidget(
-            self.status
-        )
-
-
-        self.files = QTextEdit()
-
-        self.files.setReadOnly(
-            True
-        )
-
-        layout.addWidget(
-            self.files
-        )
-
-
-        self.open_btn = QPushButton(
-            "📂 Avaa kansio"
+        self.repair_btn = QPushButton(
+            "🛠 Repair"
         )
 
         self.reload_btn = QPushButton(
             "🔄 Reload"
         )
 
-        self.start_btn = QPushButton(
-            "▶ Käynnistä moduuli"
-        )
-
-        self.refresh_btn = QPushButton(
-            "🔄 Päivitä tiedot"
+        self.open_btn = QPushButton(
+            "📂 Avaa kansio"
         )
 
 
-        layout.addWidget(
-            self.open_btn
+        layout.addWidget(self.analyze_btn)
+        layout.addWidget(self.test_btn)
+        layout.addWidget(self.backup_btn)
+        layout.addWidget(self.repair_btn)
+        layout.addWidget(self.reload_btn)
+        layout.addWidget(self.open_btn)
+
+
+        self.analyze_btn.clicked.connect(
+            self.analyze_module
         )
 
-        layout.addWidget(
-            self.reload_btn
+        self.test_btn.clicked.connect(
+            self.test_module
         )
 
-        layout.addWidget(
-            self.start_btn
+        self.backup_btn.clicked.connect(
+            self.backup_module
         )
 
-        layout.addWidget(
-            self.refresh_btn
-        )
-
-
-        self.open_btn.clicked.connect(
-            self.open_folder
+        self.repair_btn.clicked.connect(
+            self.repair_module
         )
 
         self.reload_btn.clicked.connect(
             self.reload_module
         )
 
-        self.start_btn.clicked.connect(
-            self.start_module
-        )
-
-        self.refresh_btn.clicked.connect(
-            self.load_info
+        self.open_btn.clicked.connect(
+            self.open_folder
         )
 
 
@@ -132,13 +120,11 @@ class ModuleInfoPage(QWidget):
 
         current = Path(__file__).resolve()
 
-
         for parent in current.parents:
 
             if parent.name == "BearCore":
 
                 return parent
-
 
         return None
 
@@ -148,11 +134,9 @@ class ModuleInfoPage(QWidget):
 
         base = self.find_bearcore()
 
-
         if not base:
 
             return None
-
 
         return (
             base /
@@ -181,17 +165,9 @@ class ModuleInfoPage(QWidget):
             return
 
 
+        config = path / "config.json"
 
-        config = (
-            path /
-            "config.json"
-        )
-
-
-        category = "unknown"
-
-        version = "1.0"
-
+        data = {}
 
 
         if config.exists():
@@ -206,18 +182,6 @@ class ModuleInfoPage(QWidget):
 
                     data = json.load(f)
 
-
-                category = data.get(
-                    "category",
-                    "unknown"
-                )
-
-                version = data.get(
-                    "version",
-                    "1.0"
-                )
-
-
             except:
 
                 pass
@@ -225,12 +189,11 @@ class ModuleInfoPage(QWidget):
 
 
         self.category.setText(
-            f"📂 Kategoria: {category}"
+            f"📂 Kategoria: {data.get('category','unknown')}"
         )
 
-
         self.version.setText(
-            f"📌 Versio: {version}"
+            f"📌 Versio: {data.get('version','1.0')}"
         )
 
 
@@ -239,38 +202,68 @@ class ModuleInfoPage(QWidget):
         )
 
 
+        text = []
 
-        files = []
+        text.append("⚙ Config:")
+
+        text.append(
+            json.dumps(
+                data,
+                indent=4,
+                ensure_ascii=False
+            )
+        )
+
+
+        text.append("\n📄 Tiedostot:")
 
 
         for file in path.rglob("*"):
 
             if file.is_file():
 
-                files.append(
+                text.append(
                     str(
                         file.relative_to(path)
                     )
                 )
 
 
-        self.files.setText(
-            "📄 Tiedostot:\n\n" +
-            "\n".join(files)
+        self.info.setText(
+            "\n".join(text)
         )
 
 
 
-    def open_folder(self):
+    def analyze_module(self):
 
-        path = self.module_path()
+        self.status.setText(
+            "🔍 Analyze käynnissä..."
+        )
 
 
-        if path and path.exists():
 
-            os.startfile(
-                path
-            )
+    def test_module(self):
+
+        self.status.setText(
+            "🧪 Testi käynnissä..."
+        )
+
+
+
+    def backup_module(self):
+
+        self.status.setText(
+            "💾 Backup käynnissä..."
+        )
+
+
+
+    def repair_module(self):
+
+        self.status.setText(
+            "🛠 Repair käynnissä..."
+        )
 
 
 
@@ -284,7 +277,7 @@ class ModuleInfoPage(QWidget):
 
 
             self.status.setText(
-                "🟢 Moduulit ladattu uudelleen"
+                "🟢 Moduulit ladattu"
             )
 
 
@@ -296,38 +289,11 @@ class ModuleInfoPage(QWidget):
 
 
 
-    def start_module(self):
+    def open_folder(self):
 
         path = self.module_path()
 
 
-        if not path:
+        if path and path.exists():
 
-            return
-
-
-        main_file = (
-            path /
-            "module.py"
-        )
-
-
-        if main_file.exists():
-
-            subprocess.Popen(
-                [
-                    "python",
-                    str(main_file)
-                ]
-            )
-
-
-            self.status.setText(
-                "🟢 Moduuli käynnistetty"
-            )
-
-        else:
-
-            self.status.setText(
-                "⚠️ module.py puuttuu"
-            )
+            os.startfile(path)
