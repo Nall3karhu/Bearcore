@@ -12,7 +12,19 @@ def clean_research_response(
     )
 
 
-    analysis = data.get(
+    research = data.get(
+        "research",
+        {}
+    )
+
+
+    summary = research.get(
+        "summary",
+        {}
+    )
+
+
+    analysis = research.get(
         "analysis",
         {}
     )
@@ -32,15 +44,27 @@ def clean_research_response(
 
 
     lines.append(
-        "🔎 Löysin tietoa aiheesta:"
+        "🔎 Tutkimus valmis"
     )
 
 
     lines.append(
-        analysis.get(
+        ""
+    )
+
+
+    lines.append(
+        "Aihe:"
+    )
+
+
+    lines.append(
+
+        research.get(
             "topic",
             "Tuntematon"
         )
+
     )
 
 
@@ -60,7 +84,9 @@ def clean_research_response(
     ):
 
         lines.append(
+
             f"✅ {source}"
+
         )
 
 
@@ -70,16 +96,43 @@ def clean_research_response(
 
 
     lines.append(
-        "Yhteenveto:"
+        "Keskeiset tiedot:"
     )
 
 
-    lines.append(
-        analysis.get(
+    for item in summary.get(
+        "summaries",
+        []
+    ):
+
+        title = item.get(
+            "title",
+            ""
+        )
+
+
+        text = item.get(
             "summary",
             ""
         )
-    )
+
+
+        if title:
+
+            lines.append(
+
+                f"- {title}"
+
+            )
+
+
+        if text:
+
+            lines.append(
+
+                text[:200]
+
+            )
 
 
     lines.append(
