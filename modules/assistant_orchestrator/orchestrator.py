@@ -1,13 +1,21 @@
 from datetime import datetime
 
+
 from modules.command_router.router import route
+
 
 from modules.status_controller.status import (
     format_status
 )
 
+
 from modules.assistant_research.research_bridge import (
     research_topic
+)
+
+
+from modules.response_formatter.cleaner import (
+    clean_research_response
 )
 
 
@@ -64,8 +72,11 @@ def decide_action(
 
 
     return actions.get(
+
         target,
+
         "Tuntematon toiminto"
+
     )
 
 
@@ -127,8 +138,11 @@ def extract_topic(
     for word in remove:
 
         topic = topic.replace(
+
             word,
+
             ""
+
         )
 
 
@@ -150,9 +164,30 @@ def ask(
         )
 
 
-        return research_topic(
+        result = research_topic(
             topic
         )
+
+
+        return {
+
+            "success":
+                result["success"],
+
+            "time":
+                result["time"],
+
+            "message":
+                clean_research_response(
+
+                    result
+
+                ),
+
+            "data":
+                result["data"]
+
+        }
 
 
 

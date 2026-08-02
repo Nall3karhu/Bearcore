@@ -47,6 +47,12 @@
             "command": "tutki Raspberry Pi 5",
             "topic": "tutki Raspberry Pi 5",
             "status": "active"
+        },
+        {
+            "time": "2026-08-02T22:02:13.986077",
+            "command": "tutki raspberry pi 5",
+            "topic": "tutki raspberry pi 5",
+            "status": "active"
         }
     ]
 }
