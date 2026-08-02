@@ -1,15 +1,20 @@
 from modules.developer.plugin_creator import create_command
 
 
-def command(args):
+def command(args=None):
 
-    if len(args) >= 3:
+    if args is None:
+        args = []
 
-        if args[0] == "create" and args[1] == "command":
+    if len(args) < 3:
+        return False
 
-            create_command(args[2])
+    if args[0].lower() != "create":
+        return False
 
-            return True
+    if args[1].lower() != "command":
+        return False
 
+    create_command(args[2])
 
-    return False
+    return True

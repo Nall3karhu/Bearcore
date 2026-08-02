@@ -1,0 +1,3 @@
+# testi
+
+BearCore generated module.

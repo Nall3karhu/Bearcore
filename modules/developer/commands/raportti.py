@@ -1,10 +1,14 @@
-def command(args):
+def command(args=None):
 
-    if args[0] == "raportti":
+    if args is None:
+        args = []
 
-        print("🐻 BearCore raportti toimii.")
+    if len(args) < 1:
+        return False
 
-        return True
+    if args[0].lower() != "raportti":
+        return False
 
+    print("🐻 BearCore raportti toimii.")
 
-    return False
+    return True

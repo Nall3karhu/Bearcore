@@ -2,17 +2,21 @@ import shutil
 from pathlib import Path
 
 
-def command(args):
+def command(args=None):
+
+    if args is None:
+        args = []
 
     if len(args) < 2:
+
+        print("❌ Anna backup-tiedoston nimi")
         return False
 
-    if args[0] != "restore":
-        return False
+    if args[0].lower() != "restore":
 
+        return False
 
     backup_name = args[1].strip()
-
 
     current = Path(__file__).resolve()
 
@@ -25,38 +29,24 @@ def command(args):
             base_dir = parent
             break
 
-
     if base_dir is None:
 
-        print("❌ BearCore-kansiota ei löytynyt.")
-        return True
-
+        print("❌ BearCore-kansiota ei löytynyt")
+        return False
 
     backup_dir = base_dir / "backups"
     modules_dir = base_dir / "modules"
 
-
     backup_file = backup_dir / backup_name
 
-
     if not backup_file.exists():
 
-        # kokeillaan ilman .zip päätettä
-        backup_file = backup_dir / f"{backup_name}.zip"
+        print(f"❌ Backupia ei löytynyt: {backup_name}")
+        return False
 
-
-    if not backup_file.exists():
-
-        print(
-            f"❌ Varmuuskopiota '{backup_name}' ei löytynyt."
-        )
-
-        return True
-
-
-    print("🐻 Module Restore")
-    print(f"📦 Palautetaan: {backup_file.name}")
-
+    print("📦 Module Restore")
+    print("================")
+    print(f"Palautetaan: {backup_file.name}")
 
     try:
 
@@ -65,17 +55,15 @@ def command(args):
             str(modules_dir)
         )
 
-
-    except Exception as e:
-
-        print(
-            f"❌ Palautus epäonnistui: {e}"
-        )
+        print("✅ Palautus onnistui")
 
         return True
 
+    except KeyboardInterrupt:
+        raise
 
-    print("")
-    print("✅ Moduuli palautettu.")
+    except Exception as e:
 
-    return True
+        print(f"❌ Palautus epäonnistui: {e}")
+
+        return False

@@ -2,23 +2,23 @@ import json
 from pathlib import Path
 
 
-def command(args):
+def command(args=None):
+
+    if args is None:
+        args = []
 
     if len(args) < 2:
+        print("❌ Anna templaten nimi")
         return False
 
-
-    if args[0] != "templatecreate":
+    if args[0].lower() != "templatecreate":
         return False
-
 
     template_name = args[1].strip().lower()
-
 
     current = Path(__file__).resolve()
 
     base_dir = None
-
 
     for parent in current.parents:
 
@@ -27,84 +27,75 @@ def command(args):
             base_dir = parent
             break
 
-
     if base_dir is None:
 
         print("❌ BearCore-kansiota ei löytynyt.")
-        return True
+        return False
 
-
-    template_dir = (
-        base_dir /
-        "templates" /
-        template_name
-    )
-
+    template_dir = base_dir / "templates" / template_name
 
     if template_dir.exists():
 
-        print(
-            f"❌ Template '{template_name}' on jo olemassa."
+        print(f"❌ Template '{template_name}' on jo olemassa.")
+        return False
+
+    try:
+
+        print(f"📦 Luodaan template: {template_name}")
+
+        template_dir.mkdir(
+            parents=True,
+            exist_ok=True
         )
 
-        return True
-
-
-    print(
-        f"🐻 Luodaan template: {template_name}"
-    )
-
-
-    template_dir.mkdir(
-        parents=True
-    )
-
-
-    (template_dir / "__init__.py").write_text(
-        "",
-        encoding="utf-8"
-    )
-
-
-    config = {
-        "name": "",
-        "version": "1.0",
-        "category": template_name,
-        "aliases": [],
-        "description": f"{template_name} template"
-    }
-
-
-    with open(
-        template_dir / "config.json",
-        "w",
-        encoding="utf-8"
-    ) as f:
-
-        json.dump(
-            config,
-            f,
-            indent=4,
-            ensure_ascii=False
+        (template_dir / "__init__.py").write_text(
+            "",
+            encoding="utf-8"
         )
 
+        config = {
+            "name": template_name,
+            "version": "1.0",
+            "category": template_name,
+            "aliases": [],
+            "description": f"{template_name} template"
+        }
 
-    (template_dir / "template.py").write_text(
-        f'''def MODULE_NAME(args=None):
+        with (template_dir / "config.json").open(
+            "w",
+            encoding="utf-8"
+        ) as f:
+
+            json.dump(
+                config,
+                f,
+                indent=4,
+                ensure_ascii=False
+            )
+
+        (template_dir / "template.py").write_text(
+            f'''def MODULE_NAME(args=None):
 
     print("✅ MODULE_NAME {template_name}-moduuli toimii!")
 ''',
-        encoding="utf-8"
-    )
+            encoding="utf-8"
+        )
 
+        (template_dir / "README.md").write_text(
+            f"# {template_name.title()} Template\n\nBearCore template-pohja.",
+            encoding="utf-8"
+        )
 
-    (template_dir / "README.md").write_text(
-        f"# {template_name.title()} Template\n\nBearCore template-pohja.",
-        encoding="utf-8"
-    )
+        print()
+        print("✅ Template valmis")
 
+        return True
 
-    print("")
-    print("✅ Template valmis")
+    except KeyboardInterrupt:
+        raise
 
-    return True
+    except Exception as e:
+
+        print(f"❌ Templaten luonti epäonnistui: {e}")
+
+        return False

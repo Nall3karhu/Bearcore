@@ -1,10 +1,14 @@
-def command(args):
+def command(args=None):
 
-    if args[0] == "benchmark":
+    if args is None:
+        args = []
 
-        print("🐻 BearCore benchmark toimii.")
+    if len(args) < 1:
+        return False
 
-        return True
+    if args[0].lower() != "benchmark":
+        return False
 
+    print("📊 BearCore benchmark toimii.")
 
-    return False
+    return True

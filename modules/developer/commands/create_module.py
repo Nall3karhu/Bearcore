@@ -1,49 +1,66 @@
 import json
-import os
+from pathlib import Path
 
 
-def command(args):
+def command(args=None):
+
+    if args is None:
+        args = []
 
     if len(args) < 3:
         return False
 
-    if args[0] != "create":
+    if args[0].lower() != "create":
         return False
 
-    if args[1] != "module":
+    if args[1].lower() != "module":
         return False
 
-    name = args[2].lower()
+    name = args[2].strip().lower()
 
-    path = os.path.join("modules", name)
+    current = Path(__file__).resolve()
 
-    if os.path.exists(path):
+    modules_dir = None
+
+    for parent in current.parents:
+
+        if parent.name == "modules":
+
+            modules_dir = parent
+            break
+
+    if modules_dir is None:
+
+        print("❌ Modules-kansiota ei löytynyt.")
+        return False
+
+    path = modules_dir / name
+
+    if path.exists():
+
         print(f"❌ Moduuli '{name}' on jo olemassa.")
+
         return True
 
-    os.makedirs(path)
+    path.mkdir(
+        parents=True
+    )
 
-    with open(
-        os.path.join(path, f"{name}.py"),
-        "w",
-        encoding="utf-8"
-    ) as f:
-
-        f.write(
+    (path / f"{name}.py").write_text(
 f'''def {name}(args=None):
 
     print("✅ {name}-moduuli toimii!")
-'''
-        )
-
-    open(
-        os.path.join(path, "__init__.py"),
-        "w",
+''',
         encoding="utf-8"
-    ).close()
+    )
+
+    (path / "__init__.py").write_text(
+        "",
+        encoding="utf-8"
+    )
 
     with open(
-        os.path.join(path, "config.json"),
+        path / "config.json",
         "w",
         encoding="utf-8"
     ) as f:
@@ -54,34 +71,14 @@ f'''def {name}(args=None):
                 "version": "1.0"
             },
             f,
-            indent=4
+            indent=4,
+            ensure_ascii=False
         )
 
-    with open(
-        os.path.join(path, "README.md"),
-        "w",
+    (path / "README.md").write_text(
+        f"# {name}\n\nBearCore Module\n",
         encoding="utf-8"
-    ) as f:
-
-        f.write(f"# {name}\n\nBearCore Module\n")
-
-    os.makedirs("tests", exist_ok=True)
-
-    with open(
-        os.path.join("tests", f"test_{name}.py"),
-        "w",
-        encoding="utf-8"
-    ) as f:
-
-        f.write(
-f'''from modules.{name}.{name} import {name}
-
-
-def test_{name}():
-
-    assert {name}() is None
-'''
-        )
+    )
 
     print(f"✅ Moduuli '{name}' luotu.")
 

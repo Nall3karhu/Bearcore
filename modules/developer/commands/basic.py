@@ -12,10 +12,15 @@ from modules.developer.goals import show_goals
 from modules.developer.dependencies import analyze_dependencies
 
 
+def command(args=None):
 
-def command(args):
+    if args is None:
+        args = []
 
-    cmd = args[0]
+    if len(args) < 1:
+        return False
+
+    cmd = args[0].lower()
 
 
     if cmd == "scan":

@@ -1,20 +1,20 @@
 from pathlib import Path
 
 
-def command(args):
+def command(args=None):
+
+    if args is None:
+        args = []
 
     if len(args) < 1:
         return False
 
-
-    if args[0] != "template_list":
+    if args[0].lower() != "template_list":
         return False
-
 
     current = Path(__file__).resolve()
 
     base_dir = None
-
 
     for parent in current.parents:
 
@@ -23,53 +23,36 @@ def command(args):
             base_dir = parent
             break
 
-
     if base_dir is None:
 
         print("❌ BearCore-kansiota ei löytynyt.")
-        return True
-
+        return False
 
     templates_dir = base_dir / "templates"
 
-
-    print("🐻 BearCore Templates")
+    print("📄 BearCore Templates")
     print("====================")
-
 
     if not templates_dir.exists():
 
-        print("❌ Templates-kansiota ei löytynyt.")
-
+        print("ℹ️ Templates-kansiota ei löytynyt.")
         return True
 
+    templates = sorted(templates_dir.glob("*"))
 
-    templates = []
+    if not templates:
 
-
-    for item in templates_dir.iterdir():
-
-        if item.is_dir():
-
-            templates.append(
-                item.name
-            )
-
-
-    templates.sort()
-
+        print("ℹ️ Templateja ei löytynyt.")
+        return True
 
     for template in templates:
 
-        print(
-            f"✅ {template}"
-        )
+        if template.is_dir():
 
+            print(f"📦 {template.name}")
 
-    print("")
-    print(
-        f"Yhteensä: {len(templates)} templatea"
-    )
+        else:
 
+            print(f"📄 {template.name}")
 
     return True

@@ -14,15 +14,18 @@ from core.knowledge_manager import (
 )
 
 
+
 class KnowledgePage(QWidget):
 
     def __init__(self):
 
         super().__init__()
 
+
         self.setWindowTitle(
             "📚 BearCore Knowledge"
         )
+
 
         self.resize(
             700,
@@ -45,8 +48,9 @@ class KnowledgePage(QWidget):
         self.search_box = QLineEdit()
 
         self.search_box.setPlaceholderText(
-            "🔎 Hae tietoa..."
+            "🔎 Hae muistista..."
         )
+
 
         layout.addWidget(
             self.search_box
@@ -84,9 +88,11 @@ class KnowledgePage(QWidget):
             self.load_data
         )
 
+
         self.search_box.textChanged.connect(
             self.search
         )
+
 
         self.list.itemClicked.connect(
             self.show_info
@@ -102,10 +108,7 @@ class KnowledgePage(QWidget):
         self.list.clear()
 
 
-        data = load_knowledge()
-
-
-        for item in data:
+        for item in load_knowledge():
 
             self.list.addItem(
                 item["topic"]
@@ -128,12 +131,7 @@ class KnowledgePage(QWidget):
             return
 
 
-        results = search_knowledge(
-            text
-        )
-
-
-        for item in results:
+        for item in search_knowledge(text):
 
             self.list.addItem(
                 item["topic"]
@@ -143,23 +141,21 @@ class KnowledgePage(QWidget):
 
     def show_info(self, item):
 
-        results = search_knowledge(
+        result = search_knowledge(
             item.text()
         )
 
 
-        if results:
+        if result:
 
-            data = results[0]
+            data = result[0]
 
 
             self.info.setText(
 f"""
 📌 {data['topic']}
 
-
 📝 {data['content']}
-
 
 🕒 {data['time']}
 """

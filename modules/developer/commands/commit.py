@@ -1,10 +1,14 @@
-def command(args):
+def command(args=None):
 
-    if args[0] == "commit":
+    if args is None:
+        args = []
 
-        print("🐻 BearCore commit toimii.")
+    if len(args) < 1:
+        return False
 
-        return True
+    if args[0].lower() != "commit":
+        return False
 
+    print("🐻 BearCore commit toimii.")
 
-    return False
+    return True

@@ -5,12 +5,16 @@ from pathlib import Path
 from core.module_manager import reload_modules
 
 
-def command(args):
+def command(args=None):
+
+    if args is None:
+        args = []
 
     if len(args) < 3:
+        print("❌ Käyttö: clone <lähde> <kohde>")
         return False
 
-    if args[0] != "clone":
+    if args[0].lower() != "clone":
         return False
 
     source_name = args[1].strip().lower()
@@ -24,68 +28,82 @@ def command(args):
     if not source_dir.exists():
 
         print(f"❌ Moduulia '{source_name}' ei löytynyt.")
-        return True
+        return False
 
     if target_dir.exists():
 
         print(f"❌ Moduuli '{target_name}' on jo olemassa.")
-        return True
+        return False
 
     print(f"📋 Kloonataan '{source_name}' -> '{target_name}'...")
 
-    shutil.copytree(
-        source_dir,
-        target_dir
-    )
+    try:
 
-    # Python tiedoston nimi
-    old_py = target_dir / f"{source_name}.py"
-    new_py = target_dir / f"{target_name}.py"
-
-    if old_py.exists():
-
-        old_py.rename(new_py)
-
-    # Päivitä python sisältö
-    if new_py.exists():
-
-        text = new_py.read_text(
-            encoding="utf-8"
+        shutil.copytree(
+            source_dir,
+            target_dir
         )
 
-        text = text.replace(
-            source_name,
-            target_name
-        )
+        old_py = target_dir / f"{source_name}.py"
+        new_py = target_dir / f"{target_name}.py"
 
-        new_py.write_text(
-            text,
-            encoding="utf-8"
-        )
+        if old_py.exists():
 
+            old_py.rename(new_py)
 
-    # Päivitä config
-    config = target_dir / "config.json"
+        if new_py.exists():
 
-    if config.exists():
-
-        with open(config, "r", encoding="utf-8") as f:
-            data = json.load(f)
-
-        data["name"] = target_name
-
-        with open(config, "w", encoding="utf-8") as f:
-            json.dump(
-                data,
-                f,
-                indent=4,
-                ensure_ascii=False
+            text = new_py.read_text(
+                encoding="utf-8"
             )
 
+            text = text.replace(
+                source_name,
+                target_name
+            )
 
-    reload_modules()
+            new_py.write_text(
+                text,
+                encoding="utf-8"
+            )
 
-    print("")
-    print(f"✅ Moduuli '{target_name}' luotu kopioksi.")
+        config = target_dir / "config.json"
 
-    return True
+        if config.exists():
+
+            with config.open(
+                "r",
+                encoding="utf-8"
+            ) as f:
+
+                data = json.load(f)
+
+            data["name"] = target_name
+
+            with config.open(
+                "w",
+                encoding="utf-8"
+            ) as f:
+
+                json.dump(
+                    data,
+                    f,
+                    indent=4,
+                    ensure_ascii=False
+                )
+
+        reload_modules()
+
+        print()
+        print(f"✅ Moduuli '{target_name}' luotu kopioksi.")
+
+        return True
+
+    except KeyboardInterrupt:
+        raise
+
+    except Exception as e:
+
+        print(f"❌ Kloonaus epäonnistui: {e}")
+
+        return False

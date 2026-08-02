@@ -1,6 +1,13 @@
 from modules.files.router import route
 
 
-def files(args):
+def files(args=None):
+    """
+    Files-moduulin pääsisäänkäynti.
+    Sallii kutsun sekä ilman argumentteja että argumenttien kanssa.
+    """
 
-    route(args)
+    if args is None:
+        args = []
+
+    return route(args)

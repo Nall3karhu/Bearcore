@@ -1,10 +1,14 @@
-def command(args):
+def command(args=None):
 
-    if args[0] == "design":
+    if args is None:
+        args = []
 
-        print("🐻 BearCore design toimii.")
+    if len(args) < 1:
+        return False
 
-        return True
+    if args[0].lower() != "design":
+        return False
 
+    print("🎨 BearCore design toimii.")
 
-    return False
+    return True

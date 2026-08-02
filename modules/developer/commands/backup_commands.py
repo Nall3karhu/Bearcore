@@ -4,27 +4,26 @@ from modules.developer.plugin_backup import (
 )
 
 
+def command(args=None):
 
-def command(args):
+    if args is None:
+        args = []
+
+    if len(args) < 3:
+        return False
+
+    if args[0].lower() == "backup" and args[1].lower() == "plugin":
+
+        backup_plugin(args[2:])
+
+        return True
 
 
-    if len(args) >= 3:
+    if args[0].lower() == "restore" and args[1].lower() == "plugin":
 
+        restore_plugin(args[2:])
 
-        if args[0] == "backup" and args[1] == "plugin":
-
-            backup_plugin(args[2:])
-
-            return True
-
-
-
-        if args[0] == "restore" and args[1] == "plugin":
-
-            restore_plugin(args[2:])
-
-            return True
-
+        return True
 
 
     return False

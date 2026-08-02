@@ -1,0 +1,9 @@
+{
+    "name": "module_manager",
+    "version": "1.0",
+    "aliases": [
+        "module"
+    ],
+    "description": "Hallitsee BearCoren moduuleja",
+    "category": "developer"
+}

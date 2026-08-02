@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 from modules.backup_manager.backup_manager import backup_manager
 from modules.improvement_memory.improvement_memory import improvement_memory
@@ -10,31 +10,30 @@ def code_fixer(args=None):
 
     print("💾 Luodaan varmuuskopio...")
 
-    backup = backup_manager()
-
-    if not backup:
-        print("❌ Backup epäonnistui")
+    if not backup_manager():
+        print("⚠️ Varmuuskopion luonti epäonnistui.")
         return False
-
-    print("✅ Backup valmis")
-
-    fixed = []
 
     print("🔍 Tarkistetaan moduulirakennetta...")
 
-    for root, dirs, files in os.walk("modules"):
+    project_root = Path(__file__).resolve().parents[2]
+    modules_path = project_root / "modules"
+
+    fixed = []
+
+    for root, dirs, files in modules_path.walk():
 
         python_files = [f for f in files if f.endswith(".py")]
 
         if python_files:
 
-            init_file = os.path.join(root, "__init__.py")
+            init_file = root / "__init__.py"
 
-            if not os.path.exists(init_file):
+            if not init_file.exists():
 
-                open(init_file, "w", encoding="utf-8").close()
+                init_file.touch()
 
-                fixed.append(init_file)
+                fixed.append(str(init_file))
 
                 print(f"✅ Luotu: {init_file}")
 
@@ -52,6 +51,6 @@ def code_fixer(args=None):
         ]
     )
 
-    print("🏁 Code Fixer valmis")
+    print("🐻 Code Fixer valmis")
 
     return True

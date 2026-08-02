@@ -1,12 +1,15 @@
 from core.module_manager import MODULES
 
 
-def command(args):
+def command(args=None):
+
+    if args is None:
+        args = []
 
     if len(args) == 0:
         return False
 
-    if args[0] != "modules":
+    if args[0].lower() != "modules":
         return False
 
     print("")

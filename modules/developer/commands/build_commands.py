@@ -4,46 +4,44 @@ from modules.developer.builder import build_module
 from modules.developer.create_ui import create_ui
 
 
+def command(args=None):
 
-def command(args):
-
+    if args is None:
+        args = []
 
     if len(args) < 2:
-
         return False
 
+    cmd = args[0].lower()
+    target = args[1].lower()
 
 
-    if args[0] == "plan" and args[1] == "module":
+    if cmd == "plan" and target == "module":
 
         create_plan(args[2:])
 
         return True
 
 
-
-    if args[0] == "create" and args[1] == "module":
+    if cmd == "create" and target == "module":
 
         create_code_module(args[2:])
 
         return True
 
 
-
-    if args[0] == "build" and args[1] == "module":
+    if cmd == "build" and target == "module":
 
         build_module(args[2:])
 
         return True
 
 
-
-    if args[0] == "new" and args[1] == "ui":
+    if cmd == "new" and target == "ui":
 
         create_ui(args[2:])
 
         return True
-
 
 
     return False

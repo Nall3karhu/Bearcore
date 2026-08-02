@@ -2,8 +2,7 @@ from core.template_engine import create_from_template
 from core.logger import log
 
 
-
-templates = [
+TEMPLATES = [
 
     "database_driver",
     "camera",
@@ -48,75 +47,58 @@ templates = [
 ]
 
 
+def command(args=None):
 
-def command(args):
+    if args is None:
+        args = []
 
-
-    if args[0] != "templatepack":
-
+    if len(args) < 1:
         return False
 
+    if args[0].lower() != "templatepack":
+        return False
 
-
-    print(
-        "🐻 Template Pack Generator"
-    )
-
-    print(
-        "========================"
-    )
-
+    print("📦 Template Pack Generator")
+    print("========================")
 
     created = 0
 
+    try:
 
-    for template in templates:
+        for template in TEMPLATES:
 
+            result = create_from_template(
+                template=template,
+                module_name=template,
+                category=template,
+                version="1.0",
+                author="BearCore",
+                description=f"{template} template"
+            )
 
-        result = create_from_template(
+            if result:
 
-            template=template,
+                print(f"✅ Luotu: {template}")
+                created += 1
 
-            module_name=template,
+            else:
 
-            category=template,
+                print(f"⚠️ On jo olemassa: {template}")
 
-            version="1.0",
-
-            author="BearCore",
-
-            description=f"{template} template"
-
+        log(
+            f"📦 Template Pack valmis ({created} luotu)"
         )
 
+        print()
+        print("✅ Template Pack valmis")
 
-        if result:
+        return True
 
-            print(
-                f"✅ Luotu: {template}"
-            )
+    except KeyboardInterrupt:
+        raise
 
-            created += 1
+    except Exception as e:
 
+        print(f"❌ Template Pack epäonnistui: {e}")
 
-        else:
-
-            print(
-                f"⚠️ {template} löytyy jo"
-            )
-
-
-
-    log(
-        f"📦 Template Pack valmis ({created} luotu)"
-    )
-
-
-    print()
-
-    print(
-        "🐻 Template Pack valmis"
-    )
-
-
-    return True
+        return False

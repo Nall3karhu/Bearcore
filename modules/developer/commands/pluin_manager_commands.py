@@ -4,27 +4,28 @@ from modules.developer.plugin_manager import (
 )
 
 
+def command(args=None):
 
-def command(args):
+    if args is None:
+        args = []
 
+    if len(args) < 1:
+        return False
 
-    if args[0] == "plugins":
+    if args[0].lower() == "plugins":
 
         list_plugins()
 
         return True
 
 
-
     if len(args) >= 3:
 
-
-        if args[0] == "remove" and args[1] == "plugin":
+        if args[0].lower() == "remove" and args[1].lower() == "plugin":
 
             remove_plugin(args[2:])
 
             return True
-
 
 
     return False

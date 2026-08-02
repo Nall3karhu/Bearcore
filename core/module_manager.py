@@ -111,6 +111,13 @@ def run_module(command):
 
     args = parts[1:]
 
-    MODULES[module_name](args)
+    try:
+        MODULES[module_name](args)
+        return True
 
-    return True
+    except KeyboardInterrupt:
+        raise
+
+    except Exception as e:
+        print(f"❌ Moduuli '{module_name}' kaatui: {e}")
+        return False    

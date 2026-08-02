@@ -1,43 +1,40 @@
-import os
+from pathlib import Path
 import importlib
 
 
 SEARCH_PATHS = [
-
     "commands",
     "module",
     "project",
     "release",
     "doctor",
-    "backup"
-
+    "backup",
 ]
 
 
-def run_command(args):
+def run_command(args=None):
 
-    base = os.path.dirname(
-        os.path.dirname(__file__)
-    )
+    if args is None:
+        args = []
 
-    command_name = args[0].lower() if args else ""
+    if not args:
+        return False
 
+    base = Path(__file__).resolve().parent.parent
+
+    command_name = args[0].lower()
 
     # Etsi ensin tarkka komento
     for folder in SEARCH_PATHS:
 
-        folder_path = os.path.join(
-            base,
-            folder
-        )
+        folder_path = base / folder
 
-        if not os.path.exists(folder_path):
+        if not folder_path.exists():
             continue
-
 
         file_name = f"{command_name}.py"
 
-        if file_name in os.listdir(folder_path):
+        if (folder_path / file_name).exists():
 
             try:
 
@@ -47,64 +44,22 @@ def run_command(args):
 
                 importlib.reload(module)
 
-
                 if hasattr(module, "command"):
 
-                    if module.command(args):
+                    return bool(module.command(args))
 
-                        return True
-
+            except KeyboardInterrupt:
+                raise
 
             except Exception as e:
 
-                print(f"❌ {command_name}: {e}")
-
-                return True
-
-
-    # Jos tarkkaa tiedostoa ei löydy, käy kaikki läpi
-    for folder in SEARCH_PATHS:
-
-        folder_path = os.path.join(
-            base,
-            folder
-        )
-
-        if not os.path.exists(folder_path):
-            continue
-
-
-        for file in os.listdir(folder_path):
-
-            if not file.endswith(".py"):
-                continue
-
-            if file == "__init__.py":
-                continue
-
-
-            module_name = file[:-3]
-
-
-            try:
-
-                module = importlib.import_module(
-                    f"modules.developer.{folder}.{module_name}"
+                print(
+                    f"❌ Virhe ladattaessa developer-komentoa "
+                    f"'{command_name}': {e}"
                 )
 
-                importlib.reload(module)
+                return False
 
-
-                if hasattr(module, "command"):
-
-                    if module.command(args):
-
-                        return True
-
-
-            except Exception as e:
-
-                print(f"❌ {module_name}: {e}")
-
+    print(f"❌ Developer-komentoa '{command_name}' ei löytynyt.")
 
     return False

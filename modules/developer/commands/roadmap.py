@@ -1,10 +1,14 @@
-def command(args):
+def command(args=None):
 
-    if args[0] == "roadmap":
+    if args is None:
+        args = []
 
-        print("🐻 BearCore roadmap toimii.")
+    if len(args) < 1:
+        return False
 
-        return True
+    if args[0].lower() != "roadmap":
+        return False
 
+    print("🗺️ BearCore roadmap toimii.")
 
-    return False
+    return True

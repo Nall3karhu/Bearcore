@@ -1,6 +1,7 @@
 import os
 import shutil
 from datetime import datetime
+from pathlib import Path
 
 BACKUP_FOLDER = ".backups"
 
@@ -9,32 +10,25 @@ def backup_manager(args=None):
 
     print("🐻 Backup Manager käynnissä")
 
-    source = "modules"
+    project_root = Path(__file__).resolve().parents[2]
 
-    if not os.path.exists(source):
+    source = project_root / "modules"
+    backup_root = project_root / BACKUP_FOLDER
+
+    if not source.exists():
+
         print("❌ Backup-kohdetta ei löydy")
         return False
 
-    os.makedirs(
-        BACKUP_FOLDER,
+    backup_root.mkdir(
         exist_ok=True
     )
 
-    while True:
+    timestamp = datetime.now().strftime(
+        "%Y-%m-%d_%H-%M-%S-%f"
+    )
 
-        timestamp = datetime.now().strftime(
-            "%Y-%m-%d_%H-%M-%S-%f"
-        )
-
-        backup_path = os.path.join(
-            BACKUP_FOLDER,
-            timestamp
-        )
-
-        if not os.path.exists(
-            backup_path
-        ):
-            break
+    backup_path = backup_root / timestamp
 
     try:
 

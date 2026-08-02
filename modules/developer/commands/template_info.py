@@ -2,23 +2,23 @@ import json
 from pathlib import Path
 
 
-def command(args):
+def command(args=None):
+
+    if args is None:
+        args = []
 
     if len(args) < 2:
+        print("❌ Anna templaten nimi")
         return False
 
-
-    if args[0] != "template_info":
+    if args[0].lower() != "template_info":
         return False
-
 
     template_name = args[1].strip().lower()
-
 
     current = Path(__file__).resolve()
 
     base_dir = None
-
 
     for parent in current.parents:
 
@@ -27,78 +27,57 @@ def command(args):
             base_dir = parent
             break
 
-
     if base_dir is None:
 
         print("❌ BearCore-kansiota ei löytynyt.")
-        return True
+        return False
 
-
-    template_dir = (
-        base_dir /
-        "templates" /
-        template_name
-    )
-
+    template_dir = base_dir / "templates" / template_name
 
     if not template_dir.exists():
 
-        print(
-            f"❌ Template '{template_name}' ei löytynyt."
-        )
+        print(f"❌ Templatea '{template_name}' ei löytynyt.")
+        return False
 
-        return True
-
-
-    print("🐻 Template Info")
+    print("📄 Template Info")
     print("================")
-    print(
-        f"Nimi: {template_name}"
-    )
-
-    print("")
-
+    print(f"Nimi: {template_name}")
+    print()
 
     config_file = template_dir / "config.json"
 
+    try:
 
-    if config_file.exists():
+        if config_file.exists():
 
-        with open(
-            config_file,
-            "r",
-            encoding="utf-8"
-        ) as f:
+            with config_file.open(
+                "r",
+                encoding="utf-8"
+            ) as f:
 
-            config = json.load(f)
+                config = json.load(f)
 
+            print(f"Versio: {config.get('version', 'ei määritetty')}")
+            print(f"Kategoria: {config.get('category', 'ei määritetty')}")
+            print(f"Kuvaus: {config.get('description', 'ei määritetty')}")
 
-        print(
-            f"Versio: {config.get('version', 'ei määritetty')}"
-        )
+        print()
+        print("Tiedostot:")
+        print()
 
-        print(
-            f"Kategoria: {config.get('category', 'ei määritetty')}"
-        )
+        for file in sorted(template_dir.iterdir()):
 
-        print(
-            f"Kuvaus: {config.get('description', 'ei määritetty')}"
-        )
+            if file.is_file():
 
+                print(f"✅ {file.name}")
 
-    print("")
+        return True
 
-    print("Tiedostot:")
-    print("")
+    except KeyboardInterrupt:
+        raise
 
+    except Exception as e:
 
-    for file in template_dir.iterdir():
+        print(f"❌ Template-tietojen luku epäonnistui: {e}")
 
-        if file.is_file():
-
-            print(
-                f"✅ {file.name}"
-            )
-
-
-    return True
+        return False

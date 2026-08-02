@@ -1,10 +1,14 @@
-def command(args):
+def command(args=None):
 
-    if args[0] == "think":
+    if args is None:
+        args = []
 
-        print("🐻 BearCore think toimii.")
+    if len(args) < 1:
+        return False
 
-        return True
+    if args[0].lower() != "think":
+        return False
 
+    print("💭 BearCore think toimii.")
 
-    return False
+    return True
