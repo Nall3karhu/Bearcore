@@ -48,6 +48,7 @@ Thumbs.db
 # BearCore generated data
 
 backups/
+.backups/
 reports/
 
 logs/events.json
