@@ -27,25 +27,73 @@ def learning_file():
         return None
 
 
-    folder = (
-        base /
-        "learning"
-    )
-
+    folder = base / "learning"
 
     folder.mkdir(
         exist_ok=True
     )
 
 
-    return (
-        folder /
-        "lessons.json"
-    )
+    return folder / "learning.json"
 
 
 
-def create_lesson(
+def load_learning():
+
+    file = learning_file()
+
+
+    if not file or not file.exists():
+
+        return []
+
+
+    try:
+
+        with open(
+            file,
+            "r",
+            encoding="utf-8"
+        ) as f:
+
+            return json.load(f)
+
+
+    except:
+
+        return []
+
+
+
+def save_learning(data):
+
+    file = learning_file()
+
+
+    if not file:
+
+        return False
+
+
+    with open(
+        file,
+        "w",
+        encoding="utf-8"
+    ) as f:
+
+        json.dump(
+            data,
+            f,
+            indent=4,
+            ensure_ascii=False
+        )
+
+
+    return True
+
+
+
+def create_learning_entry(
     topic,
     information,
     source=None
@@ -63,116 +111,90 @@ def create_lesson(
             information,
 
         "source":
-            source
+            source,
+
+        "importance":
+            "normal"
 
     }
 
 
 
-def teach(
+def learn(
     topic,
     information,
     source=None
 ):
 
-    file = learning_file()
+    data = load_learning()
 
 
-    if not file:
+    entry = create_learning_entry(
 
-        return False
+        topic,
 
+        information,
 
-    lessons = []
+        source
 
-
-    if file.exists():
-
-        try:
-
-            with open(
-                file,
-                "r",
-                encoding="utf-8"
-            ) as f:
-
-                lessons = json.load(f)
-
-        except:
-
-            lessons = []
-
-
-
-    lessons.append(
-        create_lesson(
-            topic,
-            information,
-            source
-        )
     )
 
 
-
-    with open(
-        file,
-        "w",
-        encoding="utf-8"
-    ) as f:
-
-        json.dump(
-            lessons,
-            f,
-            indent=4,
-            ensure_ascii=False
-        )
+    data.append(
+        entry
+    )
 
 
-    return True
+    save_learning(
+        data
+    )
+
+
+    return entry
 
 
 
-def get_lessons():
-
-    file = learning_file()
-
-
-    if not file or not file.exists():
-
-        return []
-
-
-    with open(
-        file,
-        "r",
-        encoding="utf-8"
-    ) as f:
-
-        return json.load(f)
-
-
-
-def search_lessons(
+def search_learning(
     keyword
 ):
 
-    lessons = get_lessons()
+    data = load_learning()
+
 
     results = []
 
 
-    for lesson in lessons:
+    for item in data:
 
         text = str(
-            lesson
-        )
+            item
+        ).lower()
 
 
-        if keyword.lower() in text.lower():
+        if keyword.lower() in text:
 
             results.append(
-                lesson
+                item
             )
 
 
     return results
+
+
+
+def learning_status():
+
+    return {
+
+        "controller":
+            "online",
+
+        "learned_items":
+            len(
+                load_learning()
+            ),
+
+        "status":
+            "ready"
+
+    }

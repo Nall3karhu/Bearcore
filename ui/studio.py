@@ -1,6 +1,5 @@
 import sys
 import os
-import json
 
 from pathlib import Path
 
@@ -60,7 +59,6 @@ class BearCoreStudio(QMainWindow):
         self.current_module = None
 
 
-
         central = QWidget()
 
         self.setCentralWidget(
@@ -73,8 +71,6 @@ class BearCoreStudio(QMainWindow):
         )
 
 
-        # Dashboard ylös
-
         self.dashboard = DashboardPanel()
 
         main.addWidget(
@@ -82,12 +78,11 @@ class BearCoreStudio(QMainWindow):
         )
 
 
-
         content = QHBoxLayout()
 
 
 
-        # Moduulit
+        # Vasen moduulit
 
         left = QVBoxLayout()
 
@@ -125,14 +120,14 @@ class BearCoreStudio(QMainWindow):
 
 
 
-        # Inspector
+        # Keskiosa
 
         middle = QVBoxLayout()
 
 
         middle.addWidget(
             QLabel(
-                "🐻 Module Inspector"
+                "🔎 Module Inspector"
             )
         )
 
@@ -189,7 +184,7 @@ class BearCoreStudio(QMainWindow):
 
 
         self.dashboard_btn = QPushButton(
-            "🐻 Dashboard"
+            "📊 Dashboard"
         )
 
         self.create_btn = QPushButton(
@@ -208,10 +203,21 @@ class BearCoreStudio(QMainWindow):
             "📊 Raportit"
         )
 
+        self.assistant_btn = QPushButton(
+            "🐻 Assistant"
+        )
+
+        self.knowledge_btn = QPushButton(
+            "📚 Knowledge"
+        )
+
+        self.console_btn = QPushButton(
+            "💻 Console"
+        )
+
         self.refresh_btn = QPushButton(
             "🔄 Päivitä"
         )
-
 
 
         for button in [
@@ -221,6 +227,9 @@ class BearCoreStudio(QMainWindow):
             self.template_btn,
             self.pipeline_btn,
             self.report_btn,
+            self.assistant_btn,
+            self.knowledge_btn,
+            self.console_btn,
             self.refresh_btn
 
         ]:
@@ -228,7 +237,6 @@ class BearCoreStudio(QMainWindow):
             tool_layout.addWidget(
                 button
             )
-
 
 
         tools.setLayout(
@@ -247,12 +255,10 @@ class BearCoreStudio(QMainWindow):
             1
         )
 
-
         content.addLayout(
             middle,
             2
         )
-
 
         content.addLayout(
             right,
@@ -288,6 +294,18 @@ class BearCoreStudio(QMainWindow):
             self.open_reports
         )
 
+        self.assistant_btn.clicked.connect(
+            self.open_assistant
+        )
+
+        self.knowledge_btn.clicked.connect(
+            self.open_knowledge
+        )
+
+        self.console_btn.clicked.connect(
+            self.open_console
+        )
+
         self.refresh_btn.clicked.connect(
             self.refresh_all
         )
@@ -307,17 +325,11 @@ class BearCoreStudio(QMainWindow):
 
 
 
-    def refresh_all(self):
-
-        self.load_modules()
-
-        self.dashboard.refresh()
-
-        self.event_log.refresh()
-
-
-
-    def open_page(self, name, cls):
+    def open_page(
+        self,
+        name,
+        cls
+    ):
 
         if name not in self.windows:
 
@@ -383,6 +395,49 @@ class BearCoreStudio(QMainWindow):
 
 
 
+    def open_assistant(self):
+
+        from ui.pages.assistant import AssistantPage
+
+        self.open_page(
+            "assistant",
+            AssistantPage
+        )
+
+
+
+    def open_knowledge(self):
+
+        from ui.pages.knowledge import KnowledgePage
+
+        self.open_page(
+            "knowledge",
+            KnowledgePage
+        )
+
+
+
+    def open_console(self):
+
+        from ui.pages.bearcore_console import BearCoreConsolePage
+
+        self.open_page(
+            "console",
+            BearCoreConsolePage
+        )
+
+
+
+    def refresh_all(self):
+
+        self.load_modules()
+
+        self.dashboard.refresh()
+
+        self.event_log.refresh()
+
+
+
     def load_modules(self):
 
         self.all_modules.clear()
@@ -404,35 +459,24 @@ class BearCoreStudio(QMainWindow):
         self.modules.clear()
 
 
-        search = (
-            self.search.text()
-            .lower()
-        )
-
-
         for name in sorted(
             self.all_modules
         ):
 
-            if search in name.lower():
-
-                self.modules.addItem(
-                    "✅ " + name
-                )
-
-
-        self.dashboard.refresh()
-
-
-
-    def select_module(self, item):
-
-        name = (
-            item.text()
-            .replace(
-                "✅ ",
-                ""
+            self.modules.addItem(
+                "✅ " + name
             )
+
+
+
+    def select_module(
+        self,
+        item
+    ):
+
+        name = item.text().replace(
+            "✅ ",
+            ""
         )
 
 
@@ -440,15 +484,17 @@ class BearCoreStudio(QMainWindow):
 
 
         self.info.setText(
+
 f"""
 🐻 Module Inspector
 
 Nimi:
 {name}
 
-🟢 Tila:
+Tila:
 Ready
 """
+
         )
 
 
@@ -465,12 +511,18 @@ Ready
 
 
 
-app = QApplication(sys.argv)
+if __name__ == "__main__":
 
-window = BearCoreStudio()
+    app = QApplication(
+        sys.argv
+    )
 
-window.show()
 
-sys.exit(
-    app.exec()
-)
+    window = BearCoreStudio()
+
+    window.show()
+
+
+    sys.exit(
+        app.exec()
+    )

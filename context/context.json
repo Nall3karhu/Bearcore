@@ -1,0 +1,40 @@
+{
+    "history": [
+        {
+            "time": "2026-08-02T21:15:54.147183",
+            "command": "status",
+            "topic": "järjestelmä",
+            "status": "active"
+        },
+        {
+            "time": "2026-08-02T21:21:38.431427",
+            "command": "tutki 3d tulostimet",
+            "topic": "tutki 3d tulostimet",
+            "status": "active"
+        },
+        {
+            "time": "2026-08-02T21:27:22.818490",
+            "command": "tutki 3d tulostimet",
+            "topic": "tutki 3d tulostimet",
+            "status": "active"
+        },
+        {
+            "time": "2026-08-02T21:36:40.999242",
+            "command": "tutki Raspberry Pi 5",
+            "topic": "tutki Raspberry Pi 5",
+            "status": "active"
+        },
+        {
+            "time": "2026-08-02T21:37:31.763709",
+            "command": "tutki volkswagen",
+            "topic": "tutki volkswagen",
+            "status": "active"
+        },
+        {
+            "time": "2026-08-02T21:39:25.850141",
+            "command": "etsi leivän hapanjuuri",
+            "topic": "etsi leivän hapanjuuri",
+            "status": "active"
+        }
+    ]
+}

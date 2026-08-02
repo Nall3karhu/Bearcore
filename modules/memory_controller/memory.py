@@ -1,5 +1,5 @@
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 import json
 
 
@@ -27,110 +27,25 @@ def memory_file():
         return None
 
 
-    memory_dir = (
+    folder = (
         base /
         "memory"
     )
 
 
-    memory_dir.mkdir(
+    folder.mkdir(
         exist_ok=True
     )
 
 
     return (
-        memory_dir /
+        folder /
         "memory.json"
     )
 
 
 
-def create_memory(
-    category,
-    content
-):
-
-    return {
-
-        "time":
-            datetime.now().isoformat(),
-
-        "category":
-            category,
-
-        "content":
-            content
-
-    }
-
-
-
-def save_memory(
-    category,
-    content
-):
-
-    file = memory_file()
-
-
-    if not file:
-
-        return False
-
-
-
-    memories = []
-
-
-    if file.exists():
-
-        try:
-
-            with open(
-                file,
-                "r",
-                encoding="utf-8"
-            ) as f:
-
-                memories = json.load(f)
-
-
-        except:
-
-            memories = []
-
-
-
-    memories.append(
-        create_memory(
-            category,
-            content
-        )
-    )
-
-
-
-    with open(
-        file,
-        "w",
-        encoding="utf-8"
-    ) as f:
-
-        json.dump(
-            memories,
-            f,
-            indent=4,
-            ensure_ascii=False
-        )
-
-
-    return True
-
-
-
-def get_memory(
-    limit=20
-):
+def load_memory():
 
     file = memory_file()
 
@@ -138,7 +53,6 @@ def get_memory(
     if not file or not file.exists():
 
         return []
-
 
 
     try:
@@ -149,10 +63,7 @@ def get_memory(
             encoding="utf-8"
         ) as f:
 
-            memories = json.load(f)
-
-
-        return memories[-limit:]
+            return json.load(f)
 
 
     except:
@@ -161,13 +72,115 @@ def get_memory(
 
 
 
+def save_memory(
+    data
+):
+
+    file = memory_file()
+
+
+    if not file:
+
+        return False
+
+
+    with open(
+        file,
+        "w",
+        encoding="utf-8"
+    ) as f:
+
+        json.dump(
+
+            data,
+
+            f,
+
+            indent=4,
+
+            ensure_ascii=False
+
+        )
+
+
+    return True
+
+
+
+def create_memory(
+    memory_type,
+    content,
+    source=None
+):
+
+    return {
+
+        "time":
+            datetime.now().isoformat(),
+
+        "type":
+            memory_type,
+
+        "content":
+            content,
+
+        "source":
+            source
+
+    }
+
+
+
+def remember(
+    memory_type,
+    content,
+    source=None
+):
+
+    memories = load_memory()
+
+
+    entry = create_memory(
+
+        memory_type,
+
+        content,
+
+        source
+
+    )
+
+
+    memories.append(
+        entry
+    )
+
+
+    save_memory(
+        memories
+    )
+
+
+    return entry
+
+
+
+def get_memory(
+    limit=50
+):
+
+    memories = load_memory()
+
+
+    return memories[-limit:]
+
+
+
 def search_memory(
     keyword
 ):
 
-    memories = get_memory(
-        1000
-    )
+    memories = load_memory()
 
 
     results = []
@@ -176,14 +189,11 @@ def search_memory(
     for item in memories:
 
         text = str(
-            item.get(
-                "content",
-                ""
-            )
-        )
+            item
+        ).lower()
 
 
-        if keyword.lower() in text.lower():
+        if keyword.lower() in text:
 
             results.append(
                 item
@@ -205,3 +215,22 @@ def clear_memory():
 
 
     return True
+
+
+
+def memory_status():
+
+    return {
+
+        "controller":
+            "online",
+
+        "memories":
+            len(
+                load_memory()
+            ),
+
+        "status":
+            "ready"
+
+    }

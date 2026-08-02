@@ -2,17 +2,8 @@ from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
     QLabel,
-    QListWidget,
-    QPushButton,
-    QLineEdit,
     QTextEdit
 )
-
-from core.knowledge_manager import (
-    load_knowledge,
-    search_knowledge
-)
-
 
 
 class KnowledgePage(QWidget):
@@ -23,13 +14,13 @@ class KnowledgePage(QWidget):
 
 
         self.setWindowTitle(
-            "📚 BearCore Knowledge"
+            "📚 Knowledge"
         )
 
 
         self.resize(
             700,
-            600
+            500
         )
 
 
@@ -40,123 +31,24 @@ class KnowledgePage(QWidget):
 
         layout.addWidget(
             QLabel(
-                "🐻 BearCore Knowledge"
+                "📚 BearCore Knowledge"
             )
         )
 
 
-        self.search_box = QLineEdit()
+        self.output = QTextEdit()
 
-        self.search_box.setPlaceholderText(
-            "🔎 Hae muistista..."
-        )
-
-
-        layout.addWidget(
-            self.search_box
-        )
-
-
-        self.list = QListWidget()
-
-        layout.addWidget(
-            self.list
-        )
-
-
-        self.info = QTextEdit()
-
-        self.info.setReadOnly(
+        self.output.setReadOnly(
             True
         )
 
-        layout.addWidget(
-            self.info
+
+        self.output.setText(
+            "Tietokanta valmis.\n\n"
+            "Tähän tulee tietohaut ja muisti."
         )
 
-
-        self.refresh_btn = QPushButton(
-            "🔄 Päivitä"
-        )
 
         layout.addWidget(
-            self.refresh_btn
+            self.output
         )
-
-
-        self.refresh_btn.clicked.connect(
-            self.load_data
-        )
-
-
-        self.search_box.textChanged.connect(
-            self.search
-        )
-
-
-        self.list.itemClicked.connect(
-            self.show_info
-        )
-
-
-        self.load_data()
-
-
-
-    def load_data(self):
-
-        self.list.clear()
-
-
-        for item in load_knowledge():
-
-            self.list.addItem(
-                item["topic"]
-            )
-
-
-
-    def search(self):
-
-        text = self.search_box.text()
-
-
-        self.list.clear()
-
-
-        if not text:
-
-            self.load_data()
-
-            return
-
-
-        for item in search_knowledge(text):
-
-            self.list.addItem(
-                item["topic"]
-            )
-
-
-
-    def show_info(self, item):
-
-        result = search_knowledge(
-            item.text()
-        )
-
-
-        if result:
-
-            data = result[0]
-
-
-            self.info.setText(
-f"""
-📌 {data['topic']}
-
-📝 {data['content']}
-
-🕒 {data['time']}
-"""
-            )

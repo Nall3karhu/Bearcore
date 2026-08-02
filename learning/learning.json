@@ -1,0 +1,233 @@
+[
+    {
+        "time": "2026-08-02T20:41:39.223798",
+        "topic": "BearCore",
+        "information": "Ensimmäinen opittu tieto",
+        "source": null,
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T20:42:10.722778",
+        "topic": "Testi",
+        "information": "Learning Controller toimii",
+        "source": null,
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T20:42:59.925586",
+        "topic": "Mikä on BearCore",
+        "information": "BearCore on tekoälyprojekti",
+        "source": "assistant",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T20:47:36.414618",
+        "topic": "Testi",
+        "information": "Learning Controller toimii",
+        "source": null,
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T20:48:22.566512",
+        "topic": "Testi",
+        "information": "Learning Controller toimii",
+        "source": null,
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T20:50:04.533066",
+        "topic": "Testi",
+        "information": "Learning Controller toimii",
+        "source": null,
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T20:50:20.989165",
+        "topic": "Testi",
+        "information": "Learning Controller toimii",
+        "source": null,
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T20:51:20.317436",
+        "topic": "status",
+        "information": "🐻 BearCore:\nJärjestelmän tarkistus\n\nTiedot:\n• command: status\n• target: health",
+        "source": "assistant",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T20:53:18.946623",
+        "topic": "Testi",
+        "information": "Learning Controller toimii",
+        "source": null,
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T20:56:43.501802",
+        "topic": "3D tulostimet",
+        "information": "Tutkimus valmis aiheesta: 3D tulostimet",
+        "source": "research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T20:57:40.708661",
+        "topic": "3d tulostimet",
+        "information": "Tutkimus valmis aiheesta: 3d tulostimet",
+        "source": "research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T20:57:48.131337",
+        "topic": "3d tulostimista",
+        "information": "Tutkimus valmis aiheesta: 3d tulostimista",
+        "source": "research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T20:57:49.206428",
+        "topic": "Testi",
+        "information": "Learning Controller toimii",
+        "source": null,
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:01:13.255067",
+        "topic": "3D tulostimet",
+        "information": "Tutkimus aiheesta '3D tulostimet' valmis.",
+        "source": "research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:01:19.388731",
+        "topic": "3d tulostimista",
+        "information": "Tutkimus aiheesta '3d tulostimista' valmis.",
+        "source": "research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:01:20.418035",
+        "topic": "Testi",
+        "information": "Learning Controller toimii",
+        "source": null,
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:02:39.889456",
+        "topic": "3d tulostimet",
+        "information": "Tutkimus aiheesta '3d tulostimet' valmis.",
+        "source": "research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:08:58.506040",
+        "topic": "raspberry pi 5",
+        "information": "Tutkimus aiheesta 'raspberry pi 5' valmis.",
+        "source": "research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:08:58.538808",
+        "topic": "etsi tietoa Raspberry Pi 5",
+        "information": "🐻 BearCore:\n🐻 BearCore:\n\n🔎 Tutkimus valmis\n\nAihe:\nraspberry pi 5\n\nTila:\n✅ valmis\n\nTallennettu:\n✅ Knowledge\n✅ Learning\n\nYhteenveto:\nTutkimus aiheesta 'raspberry pi 5' valmis.\n\nTiedot:\n• research: {'success': True, 'time': '2026-08-02T21:08:58.498441', 'topic': 'raspberry pi 5', 'status': 'completed', 'source': 'research_engine', 'summary': \"Tutkimus aiheesta 'raspberry pi 5' valmis.\"}\n• knowledge: {'success': True, 'time': '2026-08-02T21:08:58.498456', 'message': 'Tieto tallennettu', 'data': {'success': True, 'time': '2026-08-02T21:08:58.498454', 'topic': 'raspberry pi 5', 'status': 'completed', 'source': 'research_engine', 'summary': \"Tutkimus aiheesta 'raspberry pi 5' valmis.\"}}\n• learning: {'time': '2026-08-02T21:08:58.506040', 'topic': 'raspberry pi 5', 'information': \"Tutkimus aiheesta 'raspberry pi 5' valmis.\", 'source': 'research', 'importance': 'normal'}",
+        "source": "assistant",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:15:41.567645",
+        "topic": "Raspberry Pi 5",
+        "information": "[{'title': 'Buy a Raspberry Pi 5 - Raspberry Pi', 'link': 'https://www.raspberrypi.com/products/raspberry-pi-5/', 'summary': 'Raspberry Pi 5 is a high-performance computer with silicon designed in-house, USB 3, PCIe, and up to 16GB RAM. It runs Raspberry Pi OS Bookworm, a superb desktop operating system, and comes with official accessories for optimal performance.'}, {'title': 'Introducing: Raspberry Pi 5!', 'link': 'https://www.raspberrypi.com/news/introducing-raspberry-pi-5/', 'summary': 'Raspberry Pi 5 is the latest and fastest Raspberry Pi computer, launching in October 2023. It has a 2.4GHz quad-core CPU, a VideoCore VII GPU, dual 4K displays, and custom Raspberry Pi chips.'}, {'title': 'Computers - Product Information Portal - Raspberry Pi 5', 'link': 'https://pip.raspberrypi.com/categories/892-raspberry-pi-5', 'summary': 'Browse and download documents, reports, and notices for all Raspberry Pi products'}, {'title': 'Raspberry Pi 5 - Raspberry Pi | DigiKey', 'link': 'https://www.digikey.com/en/product-highlight/r/raspberry-pi/raspberry-pi-5', 'summary': 'Learn about Raspberry Pi 5 , the most powerful and capable system to date, with a 64-bit quad-core processor, dual 4K displays, and PCIe interface. Find out the features, accessories, and availability of this new product from DigiKey.'}, {'title': 'Amazon.com: Raspberry Pi 5 8GB : Electronics', 'link': 'https://www.amazon.com/Raspberry-Pi-8GB-SC1112-Quad-core/dp/B0CK2FCG1K', 'summary': 'More than twice as fast and infinitely smoother Raspberry Pi 5 features the Broadcom BCM2712 quad-core Arm Cortex A76 processor @ 2.4GHz, making it up to three times faster than the previous generation. With RAM variants up to 8GB, this is the fastest, smoothest Raspberry Pi experience yet.'}]",
+        "source": "web_research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:15:53.224320",
+        "topic": "3d tulostimista",
+        "information": "[{'title': '3D-tulostimet - Osta 3D-tulostin verkosta - Verkkokauppa.com', 'link': 'https://www.verkkokauppa.com/fi/catalog/3d-printers/3d-tulostimet', 'summary': '3D -tulostimet harrastus- ja ammattikäyttöön. Löydä sopiva 3D -tulostin laajasta valikoimasta. Verkkokauppa.comilta edulliseen hintaan ja nopealla toimituksella!'}, {'title': '3D-tulostimet, filamentit ja tarvikkeet 3D-tulostukseen - Gigantti', 'link': 'https://www.gigantti.fi/tietokoneet-ja-toimistotarvikkeet/tulostimet-ja-toimistotarvikkeet/3d-tulostimet', 'summary': '3D -tulostimet 3D -tulostimella voit tulostaa erilaisia esineitä ja viedä luovuutesi uudelle tasolle. 3D -tulostimet luovat fyysisiä objekteja digitaalisista malleista. Kolmiulotteiset tulosteet rakentuvat kerros kerrokselta valitusta materiaalista, kuten muovi, hartsi tai metalli. Tulostusprosessia kutsutaan additiiviseksi valmistukseksi.'}, {'title': 'Parhaat 3D-tulostimet 2026 - Top 6 mallit vertailussa', 'link': 'https://high-tech.fi/paras-3d-tulostin/', 'summary': 'Vertailimme vuoden suosituimmat 3D -tulostimet - Löydä aloittelijalle tai harrastajalle sopivin malli (hartsi tai filamentti) ja vältä hutiostot.'}, {'title': 'Osta 3D-tulostin verkkokaupasta - 3DJake Suomi', 'link': 'https://www.3djake.fi/3d-tulostimet-ja-tarvikkeet/3d-tulostin', 'summary': 'Saatavissa yli 98 eri 3D -tulostinta. Ammattilaisille ja aloittelijoille. Asiantunteva neuvonta Toimitus 5 päivän kuluttua'}, {'title': 'Laadukkaat 3D-tulostimet ja tarvikkeet | Clas Ohlson', 'link': 'https://www.clasohlson.com/fi/Elektroniikka/Tulostimet-&-tarvikkeet/3D-tulostimet-ja-tarvikkeet/c/2900', 'summary': '3D -tulostin eli 3D -printteri sopii niin kotinikkarille, luovalle harrastajalle kuin perheelle, joka haluaa tehdä hauskoja projekteja. Valikoimastamme löydät kaiken edistyneistä 3D-tulostimista lapsille suunniteltuihin 3D -kyniin sekä tärkeät tarvikkeet, kuten filamentit, tulostusalustat ja suuttimet.'}]",
+        "source": "web_research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:15:54.181365",
+        "topic": "Testi",
+        "information": "Learning Controller toimii",
+        "source": null,
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:19:27.426675",
+        "topic": "Raspberry Pi 5",
+        "information": "Tutkimus aiheesta 'Raspberry Pi 5' analysoitu. Löytyi 5 lähdettä.",
+        "source": "web_research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:21:38.415852",
+        "topic": "3d tulostimet",
+        "information": "Tutkimus aiheesta '3d tulostimet' analysoitu. Löytyi 5 lähdettä.",
+        "source": "web_research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:21:38.446282",
+        "topic": "tutki 3d tulostimet",
+        "information": "🐻 BearCore:\n🐻 BearCore:\n\n🔎 Tutkimusanalyysi valmis\n\nAihe:\n3d tulostimet\n\nLähteitä:\n✅ 3D-tulostimet - Osta 3D-tulostin verkosta - Verkkokauppa.com\n✅ 3D-tulostimet ja filamentit edullisesti meiltä | 3Dkauppa.com\n✅ Osta 3D-tulostin verkkokaupasta - 3DJake Suomi\n✅ 3D-tulostimet, filamentit ja tarvikkeet 3D-tulostukseen - Gigantti\n✅ Johtava 3D-tulostuskauppa - 3DJake Suomi\n\nYhteenveto:\nTutkimus aiheesta '3d tulostimet' analysoitu. Löytyi 5 lähdettä.\n\nTiedot:\n• web: {'success': True, 'time': '2026-08-02T21:21:38.405652', 'message': '🔎 Web tutkimus valmis', 'data': {'success': True, 'time': '2026-08-02T21:21:38.404875', 'query': '3d tulostimet', 'provider': 'duckduckgo', 'results': [{'title': '3D-tulostimet - Osta 3D-tulostin verkosta - Verkkokauppa.com', 'link': 'https://www.verkkokauppa.com/fi/catalog/3d-printers/3d-tulostimet', 'summary': '3D -tulostin mahdollistaa luovempienkin visioiden toteuttamisen! Meiltä löydät 3D-tulostimet niin aloittelijoille kuin kokeneemmille harrastajille ja ammattilaisille. Tilaa 3D -tulostin työ-, opetus- tai kotikäyttöön, ja hanki samalla myös filamentit ja muut 3D -tulostustarvikkeet.'}, {'title': '3D-tulostimet ja filamentit edullisesti meiltä | 3Dkauppa.com', 'link': 'https://www.3dkauppa.com/', 'summary': 'Kaiken kaikkiaan tämä tarkoittaa, että voimme tarjota maan parhaan tuen ja palvelun Bambu Lab tuotteille. Ostamalla Bambu Lab 3D-tulostimet 3Dkaupasta voit aina olla varma, että saat nopeaa apua sekä apua, jos koneellesi tapahtuu jotain.'}, {'title': 'Osta 3D-tulostin verkkokaupasta - 3DJake Suomi', 'link': 'https://www.3djake.fi/3d-tulostimet-ja-tarvikkeet/3d-tulostin', 'summary': '3D-tulostimet ammattilaisille ja aloittelijoille Laaja valikoima FDM- ja hartsi - 3D -tulostimia Haluatko ostaa 3D -tulostimen? Laajasta valikoimastamme löydät korkealaatuisia 3D -tulostimia johtavilta merkeiltä, kuten Bambu Lab, Prusa, Anycubic ja Elegoo.'}, {'title': '3D-tulostimet, filamentit ja tarvikkeet 3D-tulostukseen - Gigantti', 'link': 'https://www.gigantti.fi/tietokoneet-ja-toimistotarvikkeet/tulostimet-ja-toimistotarvikkeet/3d-tulostimet', 'summary': '3D-tulostimet 3D -tulostimella voit tulostaa erilaisia esineitä ja viedä luovuutesi uudelle tasolle. 3D-tulostimet luovat fyysisiä objekteja digitaalisista malleista. Kolmiulotteiset tulosteet rakentuvat kerros kerrokselta valitusta materiaalista, kuten muovi, hartsi tai metalli. Tulostusprosessia kutsutaan additiiviseksi valmistukseksi.'}, {'title': 'Johtava 3D-tulostuskauppa - 3DJake Suomi', 'link': 'https://www.3djake.fi/', 'summary': 'Sukella 3D -tulostuksen maailmaan ☝ Yli 10.750 tuotetta Ilmainen toimitus tilauksista Hyvä hinta-laatusuhde & nopea toimitus Tilaa verkossa!'}]}}\n• analysis: {'success': True, 'time': '2026-08-02T21:21:38.405658', 'topic': '3d tulostimet', 'source_count': 5, 'sources': ['3D-tulostimet - Osta 3D-tulostin verkosta - Verkkokauppa.com', '3D-tulostimet ja filamentit edullisesti meiltä | 3Dkauppa.com', 'Osta 3D-tulostin verkkokaupasta - 3DJake Suomi', '3D-tulostimet, filamentit ja tarvikkeet 3D-tulostukseen - Gigantti', 'Johtava 3D-tulostuskauppa - 3DJake Suomi'], 'summary': \"Tutkimus aiheesta '3d tulostimet' analysoitu. Löytyi 5 lähdettä.\"}\n• knowledge: {'success': True, 'time': '2026-08-02T21:21:38.405664', 'message': 'Tieto tallennettu', 'data': {'success': True, 'time': '2026-08-02T21:21:38.405662', 'topic': '3d tulostimet', 'status': 'completed', 'source': 'research_engine', 'summary': \"Tutkimus aiheesta '3d tulostimet' valmis.\"}}\n• learning: {'time': '2026-08-02T21:21:38.415852', 'topic': '3d tulostimet', 'information': \"Tutkimus aiheesta '3d tulostimet' analysoitu. Löytyi 5 lähdettä.\", 'source': 'web_research', 'importance': 'normal'}",
+        "source": "assistant",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:27:22.792616",
+        "topic": "3d tulostimet",
+        "information": "Tutkimus aiheesta '3d tulostimet' analysoitu. Löytyi 5 lähdettä.",
+        "source": "web_research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:27:22.836471",
+        "topic": "tutki 3d tulostimet",
+        "information": "🐻 BearCore:\n\n🔎 Löysin tietoa aiheesta:\n3d tulostimet\n\nLähteet:\n✅ 3D-tulostimet - Osta 3D-tulostin verkosta - Verkkokauppa.com\n✅ 3D-tulostimet ja filamentit edullisesti meiltä | 3Dkauppa.com\n✅ Osta 3D-tulostin verkkokaupasta - 3DJake Suomi\n✅ 3D-tulostimet, filamentit ja tarvikkeet 3D-tulostukseen - Gigantti\n✅ Johtava 3D-tulostuskauppa - 3DJake Suomi\n\nYhteenveto:\nTutkimus aiheesta '3d tulostimet' analysoitu. Löytyi 5 lähdettä.\n\nTallennettu:\n✅ Knowledge\n✅ Learning",
+        "source": "assistant",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:36:40.975960",
+        "topic": "raspberry pi 5",
+        "information": "Tutkimus aiheesta 'raspberry pi 5' analysoitu. Löytyi 5 lähdettä.",
+        "source": "web_research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:36:41.015659",
+        "topic": "tutki Raspberry Pi 5",
+        "information": "🐻 BearCore:\n\n🔎 Löysin tietoa aiheesta:\nraspberry pi 5\n\nLähteet:\n✅ Buy a Raspberry Pi 5 - Raspberry Pi\n✅ Introducing: Raspberry Pi 5!\n✅ Amazon.com: Raspberry Pi 5 8GB : Electronics\n✅ Computers - Product Information Portal - Raspberry Pi 5\n✅ Raspberry Pi 5 - Raspberry Pi | DigiKey\n\nYhteenveto:\nTutkimus aiheesta 'raspberry pi 5' analysoitu. Löytyi 5 lähdettä.\n\nTallennettu:\n✅ Knowledge\n✅ Learning",
+        "source": "assistant",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:37:31.739704",
+        "topic": "volkswagen",
+        "information": "Tutkimus aiheesta 'volkswagen' analysoitu. Löytyi 5 lähdettä.",
+        "source": "web_research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:37:31.778228",
+        "topic": "tutki volkswagen",
+        "information": "🐻 BearCore:\n\n🔎 Löysin tietoa aiheesta:\nvolkswagen\n\nLähteet:\n✅ VW.com | Official Home of Volkswagen Cars & SUVs\n✅ Volkswagen - Wikipedia\n✅ VW Models: SUVs, Sedans, Electric cars | Volkswagen\n✅ Volkswagen Group - Wikipedia\n✅ Volkswagen Group\n\nYhteenveto:\nTutkimus aiheesta 'volkswagen' analysoitu. Löytyi 5 lähdettä.\n\nTallennettu:\n✅ Knowledge\n✅ Learning",
+        "source": "assistant",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:39:25.824801",
+        "topic": "leivän hapanjuuri",
+        "information": "Tutkimus aiheesta 'leivän hapanjuuri' analysoitu. Löytyi 5 lähdettä.",
+        "source": "web_research",
+        "importance": "normal"
+    },
+    {
+        "time": "2026-08-02T21:39:25.865532",
+        "topic": "etsi leivän hapanjuuri",
+        "information": "🐻 BearCore:\n\n🔎 Löysin tietoa aiheesta:\nleivän hapanjuuri\n\nLähteet:\n✅ Hapanjuurileivonta - Martat\n✅ Näin teet hapanjuuren | Leipäjuuren valmistus | K-Ruoka\n✅ Ensimmäinen hapanjuurileipä: Helppo ohje aloittelijalle\n✅ Perinteinen kotitekoinen hapanjuurileipä - rapea kuori ja pehmeä sisus\n✅ Hapanjuurileipä aloittelijoille | PEKIS Reseptit\n\nYhteenveto:\nTutkimus aiheesta 'leivän hapanjuuri' analysoitu. Löytyi 5 lähdettä.\n\nTallennettu:\n✅ Knowledge\n✅ Learning",
+        "source": "assistant",
+        "importance": "normal"
+    }
+]

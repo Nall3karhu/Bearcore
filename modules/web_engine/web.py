@@ -2,25 +2,24 @@ from datetime import datetime
 
 
 
-def create_result(
-    query,
-    content=None,
-    source=None
+def create_response(
+    success,
+    message,
+    data=None
 ):
 
     return {
 
+        "success": success,
+
         "time":
             datetime.now().isoformat(),
 
-        "query":
-            query,
+        "message":
+            message,
 
-        "content":
-            content,
-
-        "source":
-            source
+        "data":
+            data
 
     }
 
@@ -32,33 +31,66 @@ def search(
 
     if not query:
 
-        return {
+        return create_response(
+            False,
+            "Hakusana puuttuu"
+        )
 
-            "success": False,
 
-            "message":
-                "Hakusana puuttuu"
+    return create_response(
+
+        True,
+
+        "🌐 Haku valmis",
+
+        {
+
+            "query":
+                query,
+
+            "results":
+                []
 
         }
 
+    )
 
 
-    return {
 
-        "success": True,
+def fetch(
+    url
+):
 
-        "result":
-            create_result(
+    return create_response(
 
-                query,
+        True,
 
-                "Hakutuloksen pohja",
+        "📥 Sivun haku valmis",
 
-                None
+        {
 
-            )
+            "url":
+                url
 
-    }
+        }
+
+    )
+
+
+
+def analyze_result(
+    result
+):
+
+    return create_response(
+
+        True,
+
+        "🧠 Tuloksen analysointi valmis",
+
+        result
+
+    )
 
 
 
@@ -66,11 +98,12 @@ def save_result(
     result
 ):
 
-    return {
+    return create_response(
 
-        "success": True,
+        True,
 
-        "message":
-            "🌐 Tulos tallennettu"
+        "💾 Tallennus valmis",
 
-    }
+        result
+
+    )
