@@ -35,6 +35,12 @@
             "command": "etsi leivän hapanjuuri",
             "topic": "etsi leivän hapanjuuri",
             "status": "active"
+        },
+        {
+            "time": "2026-08-02T21:57:33.314534",
+            "command": "tutki Raspberry Pi 5",
+            "topic": "tutki Raspberry Pi 5",
+            "status": "active"
         }
     ]
 }

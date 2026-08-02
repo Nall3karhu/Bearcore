@@ -6,9 +6,8 @@ from modules.web_research.search import (
 )
 
 
-from modules.research_analyzer.analyzer import (
-    analyze_results,
-    format_analysis
+from modules.research_reader.connector import (
+    analyze_research_sources
 )
 
 
@@ -51,6 +50,7 @@ def research_topic(
     topic
 ):
 
+
     web_result = research_web(
         topic
     )
@@ -70,7 +70,8 @@ def research_topic(
     results = web_result["data"]["results"]
 
 
-    analysis = analyze_results(
+
+    research = analyze_research_sources(
 
         topic,
 
@@ -79,40 +80,42 @@ def research_topic(
     )
 
 
+
     knowledge = save_knowledge(
+
         topic
+
     )
+
 
 
     learned = learn(
 
         topic,
 
-        analysis["summary"],
+        str(
+            research["summary"]
+        ),
 
-        "web_research"
+        "research"
 
     )
 
-
-    response = format_analysis(
-        analysis
-    )
 
 
     return create_response(
 
         True,
 
-        response,
+        "🐻 BearCore tutkimus valmis",
 
         {
 
             "web":
                 web_result,
 
-            "analysis":
-                analysis,
+            "research":
+                research,
 
             "knowledge":
                 knowledge,

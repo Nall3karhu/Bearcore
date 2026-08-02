@@ -1,8 +1,13 @@
 from datetime import datetime
 
 
-from modules.web_research.reader import (
-    read_page
+from modules.research_reader.fallback import (
+    read_with_fallback
+)
+
+
+from modules.content_summarizer.summarizer import (
+    summarize_content
 )
 
 
@@ -12,31 +17,41 @@ from modules.research_analyzer.analyzer import (
 
 
 
-def collect_page_data(
+def analyze_research_sources(
+    topic,
     results
 ):
 
-    pages = []
+
+    read_result = read_with_fallback(
+        results
+    )
 
 
-    for item in results:
-
-        url = item.get(
-            "link"
-        )
-
-
-        if not url:
-
-            continue
+    pages = read_result.get(
+        "pages",
+        []
+    )
 
 
-        page = read_page(
-            url
-        )
+    summaries = summarize_content(
+
+        topic,
+
+        pages
+
+    )
 
 
-        pages.append(
+    analyzer_input = []
+
+
+    for item in summaries.get(
+        "summaries",
+        []
+    ):
+
+        analyzer_input.append(
 
             {
 
@@ -45,42 +60,10 @@ def collect_page_data(
                         "title"
                     ),
 
-                "url":
-                    url,
-
-                "reader":
-                    page
-
-            }
-
-        )
-
-
-    return pages
-
-
-
-def analyze_research_sources(
-    topic,
-    results
-):
-
-    pages = collect_page_data(
-        results
-    )
-
-
-    analyzer_input = []
-
-
-    for page in pages:
-
-        analyzer_input.append(
-
-            {
-
-                "title":
-                    page["title"]
+                "summary":
+                    item.get(
+                        "summary"
+                    )
 
             }
 
@@ -107,8 +90,11 @@ def analyze_research_sources(
         "topic":
             topic,
 
-        "pages":
-            pages,
+        "reader":
+            read_result,
+
+        "summary":
+            summaries,
 
         "analysis":
             analysis
