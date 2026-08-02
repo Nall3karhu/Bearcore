@@ -1,6 +1,5 @@
 from pathlib import Path
 import os
-import subprocess
 import json
 
 from PySide6.QtWidgets import (
@@ -52,7 +51,6 @@ class ModuleInfoPage(QWidget):
         layout.addWidget(self.info)
 
 
-        # Toiminnot
 
         self.analyze_btn = QPushButton(
             "🔍 Analyze"
@@ -87,21 +85,6 @@ class ModuleInfoPage(QWidget):
         layout.addWidget(self.open_btn)
 
 
-        self.analyze_btn.clicked.connect(
-            self.analyze_module
-        )
-
-        self.test_btn.clicked.connect(
-            self.test_module
-        )
-
-        self.backup_btn.clicked.connect(
-            self.backup_module
-        )
-
-        self.repair_btn.clicked.connect(
-            self.repair_module
-        )
 
         self.reload_btn.clicked.connect(
             self.reload_module
@@ -138,6 +121,7 @@ class ModuleInfoPage(QWidget):
 
             return None
 
+
         return (
             base /
             "modules" /
@@ -152,7 +136,7 @@ class ModuleInfoPage(QWidget):
 
 
         self.title.setText(
-            f"🐻 Moduuli: {self.module_name}"
+            f"🐻 Nimi: {self.module_name}"
         )
 
 
@@ -165,9 +149,14 @@ class ModuleInfoPage(QWidget):
             return
 
 
-        config = path / "config.json"
 
-        data = {}
+        config_data = {}
+
+
+        config = (
+            path /
+            "config.json"
+        )
 
 
         if config.exists():
@@ -180,49 +169,62 @@ class ModuleInfoPage(QWidget):
                     encoding="utf-8"
                 ) as f:
 
-                    data = json.load(f)
+                    config_data = json.load(f)
 
             except:
 
-                pass
+                config_data = {}
 
 
 
         self.category.setText(
-            f"📂 Kategoria: {data.get('category','unknown')}"
+            f"📂 Kategoria: {config_data.get('category','unknown')}"
         )
 
+
         self.version.setText(
-            f"📌 Versio: {data.get('version','1.0')}"
+            f"📌 Versio: {config_data.get('version','1.0')}"
         )
 
 
         self.status.setText(
-            "🟢 Tila: valmis"
+            "🟢 Tila: Ready"
         )
 
 
-        text = []
 
-        text.append("⚙ Config:")
+        output = []
 
-        text.append(
+
+        output.append(
+            "⚙ Config:"
+        )
+
+
+        output.append(
             json.dumps(
-                data,
+                config_data,
                 indent=4,
                 ensure_ascii=False
             )
         )
 
 
-        text.append("\n📄 Tiedostot:")
+
+        output.append(
+            ""
+        )
+
+        output.append(
+            "📄 Tiedostot:"
+        )
 
 
         for file in path.rglob("*"):
 
             if file.is_file():
 
-                text.append(
+                output.append(
                     str(
                         file.relative_to(path)
                     )
@@ -230,39 +232,7 @@ class ModuleInfoPage(QWidget):
 
 
         self.info.setText(
-            "\n".join(text)
-        )
-
-
-
-    def analyze_module(self):
-
-        self.status.setText(
-            "🔍 Analyze käynnissä..."
-        )
-
-
-
-    def test_module(self):
-
-        self.status.setText(
-            "🧪 Testi käynnissä..."
-        )
-
-
-
-    def backup_module(self):
-
-        self.status.setText(
-            "💾 Backup käynnissä..."
-        )
-
-
-
-    def repair_module(self):
-
-        self.status.setText(
-            "🛠 Repair käynnissä..."
+            "\n".join(output)
         )
 
 
@@ -296,4 +266,6 @@ class ModuleInfoPage(QWidget):
 
         if path and path.exists():
 
-            os.startfile(path)
+            os.startfile(
+                path
+            )
